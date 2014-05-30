@@ -41,7 +41,11 @@ if(!function_exists('is_mobile'))
 				<a href="javascript:login();;return false;">登录</a>&nbsp;<a href="javascript:reg();;return false;">注册</a>
 			</div>
 			<div id="reg-div"></div>
-			<div id="login-div"></div>
+			<div id="login-div">
+			邮箱:<input type="text" name="email" class="input-text"><br><br>
+			密码:<input type="password" name="password"><br><br>
+			<input type="submmit" name="登录" value="登录">
+			</div>
 			<aside id="info">
 			<section id="share">
 				<script type="text/javascript">
