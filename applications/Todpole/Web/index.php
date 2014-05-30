@@ -43,7 +43,7 @@ if(!function_exists('is_mobile'))
 			<div id="reg-div"></div>
 			<div id="login-div">
 			邮箱:<input type="text" name="email" class="input-text"><br><br>
-			密码:<input type="password" name="password"><br><br>
+			密码:<input type="password" name="password" class="input-text"><br><br>
 			<input type="submmit" name="登录" value="登录">
 			</div>
 			<aside id="info">
