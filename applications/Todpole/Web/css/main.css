@@ -245,6 +245,7 @@ a#force-init-button:hover {
     position: absolute;
     top: 100px;
     right: 60px;
+    background:#ffffff;
 }
 .input-text
 {
