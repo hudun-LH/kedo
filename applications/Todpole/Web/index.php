@@ -44,7 +44,7 @@ if(!function_exists('is_mobile'))
 			<div id="login-div">
 			邮箱:<input type="text" name="email" class="input-text"><br><br>
 			密码:<input type="password" name="password" class="input-text"><br><br>
-			<input type="submmit" name="登录" value="登录">
+			<input type="submit" name="登录" value="登录">
 			</div>
 			<aside id="info">
 			<section id="share">
@@ -55,6 +55,7 @@ var cpro_id = "u1560945";
 <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
 			</section>
 			<section id="wtf">
+			<br><br><br><br>
 				<h2><a rel="external" href="http://github.com/walkor/workerman-todpole" title="workerman-todpole at GitHub">源代码：<img src="css/images/github.png" alt="fork on github"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://workerman.net/workerman-todpole" target="_blank">安装教程</a> &nbsp;&nbsp;&nbsp;&nbsp;感谢<a href="http://rumpetroll.com/" target="_blank">rumpetroll.com</a>提供的界面</h2>
 			</section>
 			</aside>
