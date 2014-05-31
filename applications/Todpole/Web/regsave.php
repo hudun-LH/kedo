@@ -78,4 +78,4 @@ if(!$uid)
     return;
 }
 
-echo $uid;
+include view('icon');
