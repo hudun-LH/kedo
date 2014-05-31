@@ -22,10 +22,10 @@ foreach($need as $key)
     }
 }
 
-$nick = $_POST['nick'];
-$email = $_POST['email'];
+$nick = addslashes($_POST['nick']);
+$email = addslashes($_POST['email']);
 $sex = (int)$_POST['sex'];
-$password = $_POST['password'];
+$password = addcslashes($_POST['password']);
 
 if(strlen($nick) > $NAME_MAX_LEN*3)
 {
@@ -56,4 +56,26 @@ if($PASS_MIN_LEN > strlen($password))
 }
 
 // 检查email是否已经注册过
-echo "头像设置";
+$user_table = new Table('user', 'uid');
+if($exist_uid = $user_table->find('uid', 'where email=\''.$email.'\''))
+{
+    $msg = "该邮箱已经注册";
+    require view('reg');
+    return;
+}
+
+$uid = $user_table->insert(array(
+        'nick'=> $nick,
+        'email' => $email,
+        'sex' => $sex,
+        'password' => md5($email.Config::$salt.$password),
+));
+
+if(!$uid)
+{
+    $msg = "注册失败";
+    require view('reg');
+    return;
+}
+
+echo $uid;

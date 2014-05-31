@@ -3,10 +3,12 @@ class Config
 {
     public $db = array(
         'host'=>'localhost',
-        'username'=>'kedou',
-        'password'=>'kedouforall',
-        'dbname'=>'kedou',
+        'username'=>'kedo',
+        'password'=>'taitannic',
+        'dbname'=>'kedo',
         'pconnect'=>0,
         'adapter'=>'mysqlpdo',
      );
+     
+    public static $salt = '!@#$%^';
 }
