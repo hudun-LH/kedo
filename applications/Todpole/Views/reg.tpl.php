@@ -13,23 +13,28 @@
 		<div class="col-md-4 column">
 			<form class="form-horizontal" role="form"  action="/regsave.php" method="post">
 				<div class="form-group">
-					 <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+					 <label for="inputEmail3" class="col-sm-2 control-label" >邮箱</label>
 					<div class="col-sm-10">
-						<input type="email" class="form-control" id="inputEmail3" />
+						<input type="email" class="form-control" id="inputEmail3"  name="email"/>
+					</div>
+				</div>
+				<div class="form-group">
+					 <label for="inputEmail3" class="col-sm-2 control-label" >昵称</label>
+					<div class="col-sm-10">
+						<input type="email" class="form-control" id="inputEmail3" name="nick" />
 					</div>
 				</div>
 				<div class="form-group">
 					 <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
 					<div class="col-sm-10">
-						<input type="password" class="form-control" id="inputPassword3" />
+						<input type="password" class="form-control" id="inputPassword3" type="password"/>
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
-						<div class="checkbox">
-							 <label><input type="radio"  name="sex" value="1" /> 男：</label>
-							 <label><input type="radio"  name="sex" value="0" /> 女：</label>
-						</div>
+					<label  class="col-sm-2 control-label">我是</label>
+					<div class="col-sm-10">
+							 <label>男生<input type="radio"  name="sex" value="1" /> </label>
+							 <label>女生<input type="radio"  name="sex" value="0" /> </label>
 					</div>
 				</div>
 				<div class="form-group">
