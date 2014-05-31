@@ -35,7 +35,7 @@
 				<div class="form-group">
 					 <label class="col-sm-2 control-label" >昵称</label>
 					<div class="col-sm-10">
-						<input type="email" class="form-control" name="nick" value="<?php echo isset($nick) ? $nick : '';?>"/>
+						<input type="text" class="form-control" name="nick" value="<?php echo isset($nick) ? $nick : '';?>"/>
 					</div>
 				</div>
 				<div class="form-group">
