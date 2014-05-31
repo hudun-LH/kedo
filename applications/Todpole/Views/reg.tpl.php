@@ -21,7 +21,7 @@
 				<div class="form-group">
 					 <label class="col-sm-2 control-label" >昵称</label>
 					<div class="col-sm-10">
-						<input type="email" class="form-control" id="inputEmail3" name="nick" />
+						<input type="email" class="form-control" name="nick" />
 					</div>
 				</div>
 				<div class="form-group">
@@ -33,13 +33,13 @@
 				<div class="form-group">
 					<label  class="col-sm-2 control-label">我是</label>
 					<div class="col-sm-10">
-							 <label>男生<input type="radio"  name="sex" value="1" /> </label>
-							 <label>女生<input type="radio"  name="sex" value="0" /> </label>
+							<label>男生<input type="radio"  name="sex" value="1" /> </label>
+							<label>女生<input type="radio"  name="sex" value="0" /> </label>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						 <button type="submit" class="btn btn-default">注册</button>
+						 <button type="submit" class="btn btn-default" id="submit">注册</button>
 					</div>
 				</div>
 			</form>
@@ -50,5 +50,22 @@
 		</div>
 	</div>
 </div>
+<script>
+$("#submit").click(function(){
+	$.ajax({
+	url:"",
+	type:"POST",
+	data:$("form").serialize(),
+	dataType:"json",
+	success:function(data){
+	    $("#message").html("");
+	    if(data.code !=0){
+	           alert("用户登陆失败,错误信息："+data.msg);
+	           return;
+	    }
+	}
+});
+});;
+</script>
 </body>
 </html>
