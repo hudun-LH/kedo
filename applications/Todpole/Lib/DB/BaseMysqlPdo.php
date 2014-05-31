@@ -61,12 +61,12 @@ class Dadi_MysqlPDO implements Dadi_Mysql_Interface {
     	self::$_sth = $sth;
     	if (self::$_dbh->errorCode() != '00000') {
 			$error = self::$_dbh->errorInfo();
-			throw new \Exception('<br>MYSQL(PDO) PREPARE ERROR:' . $error[2]);
+			throw new \Exception('<br>MYSQL(PDO) PREPARE ERROR '.self::$_dbh->errorCode().':' . $error[2]);
 		}
 		$sth->execute();
 		if ($sth->errorCode() != '00000') {
 			$error = $sth->errorInfo();
-			throw new \Exception($sql . '<br>MYSQL(PDO) ERROR:' . $error[2]);
+			throw new \Exception($sql . '<br>MYSQL(PDO) ERROR'.$sth->errorCode().':' . $error[2]);
 		}
 		return $sth;
     }
