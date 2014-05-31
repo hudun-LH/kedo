@@ -50,22 +50,5 @@
 		</div>
 	</div>
 </div>
-<script>
-$("#submit").click(function(){
-	$.ajax({
-	url:"",
-	type:"POST",
-	data:$("form").serialize(),
-	dataType:"json",
-	success:function(data){
-	    $("#message").html("");
-	    if(data.code !=0){
-	           alert("用户登陆失败,错误信息："+data.msg);
-	           return;
-	    }
-	}
-});
-});;
-</script>
 </body>
 </html>
