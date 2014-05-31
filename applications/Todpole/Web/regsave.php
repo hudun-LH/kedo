@@ -16,7 +16,7 @@ foreach($need as $key)
 {
     if(!isset($_POST[$key]))
     {
-        $msg = "参数错误";
+        $msg = $key == 'sex' ? '请选择性别' : '参数错误 ';
         require view('reg');
         return;
     }
