@@ -10,11 +10,14 @@ $need = array(
         'password',
 );
 
+$msg = '';
+
 foreach($need as $key)
 {
     if(!isset($_POST[$key]))
     {
-        echo json_encode(array("code"=>400, "msg"=>"bad request"));
+        $msg = "参数错误";
+        include view('reg');
         return;
     }
 }
@@ -26,27 +29,31 @@ $password = $_POST['password'];
 
 if(mb_strlen($nick) > $NAME_MAX_LEN)
 {
-    echo json_encode(array("code"=>401, "msg"=>"昵称长度不能超过{$NAME_MAX_LEN}个汉字"));
+    $msg = "昵称长度不能超过{$NAME_MAX_LEN}个汉字";
+    include view('reg');
     return;
 }
 
 if(!filter_var($email, FILTER_VALIDATE_EMAIL))
 {
-    echo json_encode(array("code"=>402, "msg"=>"email格式不正确"));
+    $msg = "邮件格式不正确";
+    include view('reg');
     return;
 }
 
 if($sex != 0 && $sex !=1)
 {
-    echo json_encode(array("code"=>403, "msg"=>"性别格式不正确"));
+    $msg = "性别格式不正确";
+    include view('reg');
     return;
 }
 
 if($PASS_MIN_LEN > strlen($password))
 {
-    echo json_encode(array("code"=>404, "msg"=>"密码长度最少{$PASS_MIN_LEN}个字符"));
+    $msg = "密码长度最少{$PASS_MIN_LEN}个字符";
+    include view('reg');
     return;
 }
 
 // 检查email是否已经注册过
-
+echo "头像设置";

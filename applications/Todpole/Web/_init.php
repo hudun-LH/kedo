@@ -5,3 +5,8 @@ if(!defined('ROOT_DIR'))
 }
 
 require_once ROOT_DIR . '/Lib/DB/Table.php';
+
+function view($page)
+{
+    return ROOT_DIR . '/View/'.$page.'.tpl.php';
+}
