@@ -34,19 +34,19 @@ class Table{
 			$adapter = self::getAdapter();
 			switch($adapter){
 			case 'mysql' : 
-				include ('BaseMysql.php');
+				require_once ('BaseMysql.php');
 				self::$_dbInstance = Dadi_Mysql::getInstance();
 				break;
 			case 'mysqli' : 
-				include ('BaseMysqli.php');
+				require_once ('BaseMysqli.php');
 				self::$_dbInstance = Dadi_Mysqli::getInstance();
 				break;
 			case 'mysqlpdo' : 
-				include ('BaseMysqlPdo.php');
+				require_once ('BaseMysqlPdo.php');
 				self::$_dbInstance =  Dadi_MysqlPDO::getInstance();
 				break;
 			default : 
-				include ('BaseMysqli.php');
+				require_once ('BaseMysqli.php');
 				self::$_dbInstance = Dadi_Mysqli::getInstance();
 			}
 		}
