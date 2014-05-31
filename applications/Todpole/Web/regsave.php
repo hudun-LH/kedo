@@ -17,7 +17,7 @@ foreach($need as $key)
     if(!isset($_POST[$key]))
     {
         $msg = "参数错误";
-        include view('reg');
+        require view('reg');
         return;
     }
 }
@@ -30,28 +30,28 @@ $password = $_POST['password'];
 if(mb_strlen($nick) > $NAME_MAX_LEN)
 {
     $msg = "昵称长度不能超过{$NAME_MAX_LEN}个汉字";
-    include view('reg');
+    require view('reg');
     return;
 }
 
 if(!filter_var($email, FILTER_VALIDATE_EMAIL))
 {
     $msg = "邮件格式不正确";
-    include view('reg');
+    require view('reg');
     return;
 }
 
 if($sex != 0 && $sex !=1)
 {
     $msg = "性别格式不正确";
-    include view('reg');
+    require view('reg');
     return;
 }
 
 if($PASS_MIN_LEN > strlen($password))
 {
     $msg = "密码长度最少{$PASS_MIN_LEN}个字符";
-    include view('reg');
+    require view('reg');
     return;
 }
 
