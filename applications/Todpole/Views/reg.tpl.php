@@ -47,9 +47,7 @@
 				<?php if(!empty($msg)){?>
 				<div class="alert alert-dismissable alert-warning">
 				 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				<h4>
 					<?php echo $msg;?>
-				</h4> 
 				</div>
 				<?php }?>
 				<div class="form-group">
