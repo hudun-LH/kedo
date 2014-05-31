@@ -32,9 +32,9 @@
 					</div>
 				</div>
 				<div class="form-group">
-					 <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+					 <label for="inputPassword3" class="col-sm-2 control-label" >密码</label>
 					<div class="col-sm-10">
-						<input type="password" class="form-control" id="inputPassword3" type="password"/>
+						<input type="password" class="form-control" id="inputPassword3" name="password"/>
 					</div>
 				</div>
 				<div class="form-group">
