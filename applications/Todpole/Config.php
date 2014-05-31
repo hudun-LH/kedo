@@ -5,7 +5,7 @@ class Config
         'host'=>'localhost',
         'username'=>'kedo',
         'password'=>'taitannic',
-        'dbname'=>'kedo',
+        'database'=>'kedo',
         'pconnect'=>0,
         'adapter'=>'mysqlpdo',
      );
