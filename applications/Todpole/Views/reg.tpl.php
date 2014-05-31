@@ -10,7 +10,7 @@
 <body>
 <div class="container">
 	<div class="row clearfix">
-		<div class="col-md-12 column">
+		<div class="col-md-4 column">
 			<form class="form-horizontal" role="form">
 				<div class="form-group">
 					 <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
@@ -19,7 +19,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					 <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+					 <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
 					<div class="col-sm-10">
 						<input type="password" class="form-control" id="inputPassword3" />
 					</div>
@@ -27,7 +27,8 @@
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
 						<div class="checkbox">
-							 <label><input type="radio" /> Remember me</label>
+							 <label><input type="radio"  name="sex" value="1" /> 男：</label>
+							 <label><input type="radio"  name="sex" value="0" /> 女：</label>
 						</div>
 					</div>
 				</div>
@@ -37,6 +38,10 @@
 					</div>
 				</div>
 			</form>
+		</div>
+		<div class="col-md-4 column">
+		</div>
+		<div class="col-md-4 column">
 		</div>
 	</div>
 </div>
