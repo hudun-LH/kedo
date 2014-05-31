@@ -16,7 +16,7 @@
 				<div class="form-group">
 					 <label for="inputEmail3" class="col-sm-2 control-label" ></label>
 					<div class="col-sm-10">
-						<h5>小蝌蚪注册</h5>
+						<h3>小蝌蚪注册</h3>
 					</div>
 				</div>
 				<div class="form-group">

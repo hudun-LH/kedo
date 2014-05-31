@@ -27,7 +27,7 @@ $email = $_POST['email'];
 $sex = (int)$_POST['sex'];
 $password = $_POST['password'];
 
-if(mb_strlen($nick) > $NAME_MAX_LEN)
+if(strlen($nick) > $NAME_MAX_LEN*3)
 {
     $msg = "昵称长度不能超过{$NAME_MAX_LEN}个汉字";
     require view('reg');
