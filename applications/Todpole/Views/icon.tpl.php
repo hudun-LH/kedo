@@ -14,6 +14,10 @@
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12column">
+        <p id="swfContainer">
+            本组件需要安装Flash Player后才可使用，请从<a href="http://www.adobe.com/go/getflashplayer">这里</a>下载安装。
+        </p>
+        <p style="text-align:center"><button type="button" id="upload">自定义上传按钮</button></p>
 		<script type="text/javascript">
             swfobject.addDomLoadEvent(function () {
                 var swf = new fullAvatarEditor("swfContainer", {
