@@ -36,8 +36,9 @@ if(!function_exists('is_mobile'))
 			<h1>workerman</h1>
 		<?php if(!is_mobile()){?>
 			<div id="instructions">
-				<h2>介绍</h2>
-				<p>直接打字聊天!<br />输入 name: XX 则会设置你的昵称为XX</p>
+				<img src="/images/default.png" style="border:3px solid #FFFFFF;"><br>
+				昵称：<input type="text" id="nick">
+				我是：男生&nbsp;<input type="radio"  id="sex1">&nbsp;&nbsp;女生&nbsp;<input type="radio"  id="sex0">
 			</div>
 			<aside id="info">
 			<section id="share">
