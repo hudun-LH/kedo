@@ -34,11 +34,11 @@ class Event
            $new_message .= "Connection: Upgrade\r\n";
            $new_message .= "Sec-WebSocket-Accept: " . $new_key . "\r\n\r\n";
            
-           // 把时间戳当成uid，todpole程序uid固定为6位数字
-           $uid = (substr(strval(microtime(true)), 2)*100);
-           if($uid<1000000000)
+           // 把时间戳当成uid
+           $uid = (int) (substr(strval(microtime(true)), 3)*100);
+           if($uid<100000000)
            {
-               $uid += 1000000000; 
+               $uid += 100000000; 
            }
            $new_message .= WebSocket::encode('{"type":"welcome","id":'.$uid.'}');
            
