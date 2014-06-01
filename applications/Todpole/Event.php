@@ -34,8 +34,18 @@ class Event
            $new_message .= "Connection: Upgrade\r\n";
            $new_message .= "Sec-WebSocket-Accept: " . $new_key . "\r\n\r\n";
            
+           if(preg_match("/".session_name().": *(.*?)\r\n/", $message, $match))
+           {
+               $sid = $match[1];
+               if($raw = file_get_contents(session_save_path() ? session_save_path()."/sess_" . session_name() : '/tmp/sess_'.session_name()))
+               {
+                   session_decode($raw);
+               }
+           }
+           
+           
            // 把时间戳当成uid
-           $uid = (int) (substr(strval(microtime(true)), 3)*100);
+           $uid = isset($_SESSION['uid']) ? $_SESSION['uid'] : (int) (substr(strval(microtime(true)), 3)*100);
            if($uid<100000000)
            {
                $uid += 100000000; 
