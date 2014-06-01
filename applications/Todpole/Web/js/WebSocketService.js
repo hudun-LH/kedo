@@ -12,9 +12,10 @@ var WebSocketService = function(model, webSocket) {
 		model.userTadpole.id = data.id;
 		model.tadpoles[data.id] = model.tadpoles[-1];
 		delete model.tadpoles[-1];
-		$.cookie('uid', data.id);
 		$('#chat').initChat();
-		if($.cookie('todpole_name'))	{
+		if(data.name){
+			webSocketService.sendMessage('name:'+data.name));
+		}else if($.cookie('todpole_name'))	{
 			webSocketService.sendMessage('name:'+$.cookie('todpole_name'));
 		}
 	};

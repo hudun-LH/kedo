@@ -9,6 +9,7 @@
 
 require_once ROOT_DIR . '/Lib/Gateway.php';
 require_once ROOT_DIR . '/Protocols/WebSocket.php';
+require_once ROOT_DIR . '/Lib/DB/Table.php';
 
 class Event
 {
@@ -57,9 +58,12 @@ class Event
            else 
            {
                $uid = $_SESSION['uid'];
+               $user_table = new Table('user', 'uid'); 
+               $user_info = $user_table->get($uid);
+               $user_name = $user_info['nick'];
            }
            
-           $new_message .= WebSocket::encode('{"type":"welcome","id":'.$uid.'}');
+           $new_message .= WebSocket::encode('{"type":"welcome","id":'.$uid.', "name":"'.$user_name.'"}');
            
            // 记录uid到gateway通信地址的映射
            GateWay::storeUid($uid);
