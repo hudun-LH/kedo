@@ -14,7 +14,7 @@ var WebSocketService = function(model, webSocket) {
 		delete model.tadpoles[-1];
 		$('#chat').initChat();
 		if(data.name){
-			webSocketService.sendMessage('name:'+data.name));
+			webSocketService.sendMessage('name:'+data.name);
 		}else if($.cookie('todpole_name'))	{
 			webSocketService.sendMessage('name:'+$.cookie('todpole_name'));
 		}
