@@ -18,6 +18,9 @@ var WebSocketService = function(model, webSocket) {
 		}else if($.cookie('todpole_name'))	{
 			webSocketService.sendMessage('name:'+$.cookie('todpole_name'));
 		}
+		if(data.sex){
+			model.userTadpole.sex = data.sex;
+		}
 	};
 	
 	this.updateHandler = function(data) {
@@ -31,6 +34,9 @@ var WebSocketService = function(model, webSocket) {
 		
 		var tadpole = model.tadpoles[data.id];
 		tadpole.authorized = data.authorized;
+		if(tadpole.sex == -1 && "undefined" != typeof data.sex){
+			tadpole.sex = data.sex;
+		}
 		if(tadpole.id == model.userTadpole.id) {			
 			tadpole.name = data.name;
 			return;
