@@ -1,5 +1,7 @@
 <?php 
 require_once __DIR__ . '/_init.php';
+require_once ROOT_DIR . '/Lib/Gateway.php';
+require_once ROOT_DIR . '/Protocols/WebSocket.php';
 
 $NAME_MAX_LEN = 10;
 $PASS_MIN_LEN = 3;
@@ -83,5 +85,14 @@ if(!$uid)
 session_start();
 
 $_SESSION['uid'] = $uid;
+
+$address = GateWay::getAddressByUid($_COOKIE['uid']);
+Context::$local_ip = $address['local_ip'];
+Context::$local_port = $address['local_port'];
+Context::$socket_id = $address['socket_id '];
+
+GateWay::storeUid($uid);
+GateWay::notifyConnectionSuccess($uid);
+Gateway::sendToUid($uid, '{"type":"welcome","id":'.$uid.'}');
 
 include view('icon');

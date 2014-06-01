@@ -40,12 +40,6 @@ if(!function_exists('is_mobile'))
 				<p>直接打字聊天!<br />输入 name: XX 则会设置你的昵称为XX</p>
 				<a href="javascript:login();;return false;">登录</a>&nbsp;<a href="javascript:reg();;return false;">注册</a>
 			</div>
-			<div id="reg-div"></div>
-			<div id="login-div">
-			邮箱:<input type="text" name="email" class="input-text"><br><br>
-			密码:<input type="password" name="password" class="input-text"><br><br>
-			<input type="submit" name="登录" value="登录">
-			</div>
 			<aside id="info">
 			<section id="share">
 				<script type="text/javascript">
