@@ -196,28 +196,28 @@ a#force-init-button:hover {
 		margin: 20px 40px 20px 20px;
 		margin-right: 40px;
 	}
-		#info #wtf {
-			float: left;
-			margin-left: 30px;
-			margin-right: 40px;
-		}
-		
-		#info #share {
-			float: right;
-			margin-right: 40px;
-		}
-		
-		#info section ul {
-		
-		}
-			#info section ul li {
-				float: left;
-				margin-right: 10px;
-			}
-				#info section ul li a {
-					font-size: 1.3em;
-				}
+	#info #wtf {
+		float: left;
+		margin-left: 30px;
+		margin-right: 40px;
+	}
 	
+	#info #share {
+		float: right;
+		margin-right: 40px;
+	}
+	
+	#info section ul {
+	
+	}
+	#info section ul li {
+		float: left;
+		margin-right: 10px;
+	}
+	#info section ul li a {
+		font-size: 1.3em;
+	}
+
 	#info #settings .edit {
 		display: none;
 	}

@@ -79,3 +79,9 @@ $(function() {
 });
 
 document.body.onselectstart = function() { return false; }
+
+$(document).ready(function(){
+	$('#nick').blur(function(){
+		app.sendMessage('name:'+$('#nick').val());
+	});
+});
