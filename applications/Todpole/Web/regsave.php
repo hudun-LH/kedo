@@ -81,5 +81,6 @@ if(!$uid)
 }
 
 session_start();
+$_SESSION['uid'] = $uid;
 
 include view('icon');

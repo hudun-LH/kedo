@@ -54,6 +54,7 @@ class Event
                {
                    $uid += 100000000; 
                }
+               $new_message .= WebSocket::encode('{"type":"welcome","id":'.$uid.'}');
            }
            else 
            {
@@ -61,9 +62,10 @@ class Event
                $user_table = new Table('user', 'uid'); 
                $user_info = $user_table->get($uid);
                $user_name = $user_info['nick'];
+               $new_message .= WebSocket::encode('{"type":"welcome","id":'.$uid.', "name":"'.$user_name.'"}');
            }
            
-           $new_message .= WebSocket::encode('{"type":"welcome","id":'.$uid.', "name":"'.$user_name.'"}');
+           
            
            // 记录uid到gateway通信地址的映射
            GateWay::storeUid($uid);
