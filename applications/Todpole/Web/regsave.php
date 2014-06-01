@@ -69,6 +69,8 @@ $uid = $user_table->insert(array(
         'email' => $email,
         'sex' => $sex,
         'password' => md5($email.Config::$salt.$password),
+        'ip'=>$_SERVER['REMOTE_ADDR'],
+        'time'=>time(),
 ));
 
 if(!$uid)
