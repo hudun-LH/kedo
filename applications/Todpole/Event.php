@@ -33,13 +33,13 @@ class Event
            $new_message .= "Sec-WebSocket-Version: 13\r\n";
            $new_message .= "Connection: Upgrade\r\n";
            $new_message .= "Sec-WebSocket-Accept: " . $new_key . "\r\n\r\n";
-           // 把时间戳当成uid，todpole程序uid固定为6位数字
-           $uid = (substr(strval(microtime(true)), 6, 7)*100)%1000000;
-           if($uid<100000)
-           {
-               $uid += 100000; 
-           }
-           $new_message .= pack("H*", '811e').'{"type":"welcome","id":'.$uid.'}';
+           
+           GateWay::sendToCurrentUid($new_message, true);
+           
+           // 把时间戳当成uid，todpole程序uid
+           $uid = (int)(substr(strval(microtime(true)), 2, 10)*100);
+           
+           $new_message = '{"type":"welcome","id":'.$uid.'}';
            
            // 记录uid到gateway通信地址的映射
            GateWay::storeUid($uid);
@@ -48,7 +48,7 @@ class Event
            GateWay::notifyConnectionSuccess($uid);
            
            // 发送数据包到客户端 完成握手
-           return GateWay::sendToCurrentUid($new_message, true);
+           return GateWay::sendToCurrentUid($new_message);
        }
        // 如果是flash发来的policy请求
        elseif(trim($message) === '<policy-file-request/>')
