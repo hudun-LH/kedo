@@ -2,7 +2,7 @@
 require_once __DIR__ . '/_init.php';
 
 $NAME_MAX_LEN = 10;
-$PASS_MIN_LEN = 6;
+$PASS_MIN_LEN = 3;
 $need = array(
         'nick',
         'email',
@@ -48,7 +48,7 @@ if($sex != 0 && $sex !=1)
     return;
 }
 
-if($PASS_MIN_LEN < strlen($password))
+if($PASS_MIN_LEN > strlen($password))
 {
     $msg = "密码长度最少{$PASS_MIN_LEN}个字符";
     require view('reg');
