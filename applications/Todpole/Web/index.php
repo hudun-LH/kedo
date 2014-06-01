@@ -37,8 +37,8 @@ if(!function_exists('is_mobile'))
 		<?php if(!is_mobile()){?>
 			<div id="instructions">
 				<img src="/images/default.png" style="border:3px solid #FFFFFF;"><br>
-				昵称：<input type="text" id="nick">
-				我是：男生&nbsp;<input type="radio"  id="sex1">&nbsp;&nbsp;女生&nbsp;<input type="radio"  id="sex0">
+				昵称：<input type="text" id="nick" class="input">
+				我是：男生&nbsp;<input type="radio"  id="sex1" name="sex">&nbsp;&nbsp;女生&nbsp;<input type="radio"  id="sex0" name="sex">
 			</div>
 			<aside id="info">
 			<section id="share">

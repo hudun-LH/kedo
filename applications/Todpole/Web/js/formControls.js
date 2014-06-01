@@ -27,7 +27,7 @@
 		};
 
 		input.blur(function(e) {
-			setTimeout(function(){input.focus()}, 0.1);
+			setTimeout(function(){if($('#nick').focus())return;input.focus()}, 0.1);
 		});
 		input.keydown(function(e){
 			if(input.val().length > 0) {
