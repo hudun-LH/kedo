@@ -117,7 +117,7 @@ var Tadpole = function() {
 
 		if(tadpole.hover && isAuthorized()) {
 			if(tadpole.sex == 0){
-				context.fillStyle = 'rgba(249, 136, 119,'+opacity+')';
+				context.fillStyle = 'rgba(255, 181, 197,'+opacity+')';
 			}
 			else if(tadpole.sex == 1){
 				context.fillStyle = 'rgba(192, 253, 247,'+opacity+')';
