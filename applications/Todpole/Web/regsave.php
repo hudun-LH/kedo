@@ -2,6 +2,8 @@
 require_once __DIR__ . '/_init.php';
 require_once ROOT_DIR . '/Lib/Gateway.php';
 require_once ROOT_DIR . '/Protocols/WebSocket.php';
+require_once ROOT_DIR . '/Protocols/GatewayProtocol.php';
+require_once ROOT_DIR . '/Lib/Store.php';
 
 $NAME_MAX_LEN = 10;
 $PASS_MIN_LEN = 3;
