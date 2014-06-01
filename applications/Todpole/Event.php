@@ -35,7 +35,7 @@ class Event
            $new_message .= "Connection: Upgrade\r\n";
            $new_message .= "Sec-WebSocket-Accept: " . $new_key . "\r\n\r\n";
            
-           if(preg_match("/".session_name()."=*(.*?);/", $message, $match))
+           if(preg_match("/".session_name()."=*([0-9a-zA-Z]+)/", $message, $match))
            {
                $sid = $match[1];
                if($raw = file_get_contents(session_save_path() ? session_save_path()."/sess_" . $sid : '/tmp/sess_'. $sid))
