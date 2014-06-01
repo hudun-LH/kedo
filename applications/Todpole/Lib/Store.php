@@ -13,7 +13,7 @@ class Store
     protected static $dataCache = array();
     // 上次缓存时间
     protected static $lastCacheTime = 0;
-    // 保存数据的文件相对与WORKERMAN_LOG_DIR目录目录
+    // 保存数据的文件相对与ROOT_DIR . '/../../logs/' .目录目录
     protected static $dataFile = 'data.php';
     // 打开文件的句柄
     protected static $dataFileHandle = null;
@@ -52,7 +52,7 @@ class Store
    
     protected static function writeToDisk()
     {
-        $data_file = WORKERMAN_LOG_DIR . self::$dataFile;
+        $data_file = ROOT_DIR . '/../../logs/' . self::$dataFile;
         if(!self::$dataFileHandle)
         {
             if(!is_file($data_file))
@@ -73,12 +73,12 @@ class Store
     
     protected static function readDataFromDisk()
     {
-        $data_file = WORKERMAN_LOG_DIR . self::$dataFile;
+        $data_file = ROOT_DIR . '/../../logs/' . self::$dataFile;
         if(!is_file($data_file))
         {
             touch($data_file);
         }
-        $cache = include WORKERMAN_LOG_DIR . self::$dataFile;
+        $cache = include ROOT_DIR . '/../../logs/' . self::$dataFile;
         if(is_array($cache))
         {
             self::$dataCache = $cache;
