@@ -7,6 +7,7 @@ var Tadpole = function() {
 	
 	this.name = '';
 	this.age = 0;
+	this.sex = -1;
 	
 	this.hover = false;
 
@@ -113,9 +114,12 @@ var Tadpole = function() {
 	this.draw = function(context) {
 		var opacity = Math.max(Math.min(20 / Math.max(tadpole.timeSinceLastServerUpdate-300,1),1),.2).toFixed(3);
 
-		if(tadpole.hover && isAuthorized()) {
-			context.fillStyle = 'rgba(192, 253, 247,'+opacity+')';
-			// context.shadowColor   = 'rgba(249, 136, 119, '+opacity*0.7+')';
+		if(tadpole.hover && tadpole.sex != -1) {
+			if(tadpole.sex == 0){
+				context.fillStyle = 'rgba(255, 181, 197,'+opacity+')';
+			}else{
+				context.fillStyle = 'rgba(192, 253, 247,'+opacity+')';
+			}
 		}
 		else {
 			context.fillStyle = 'rgba(226,219,226,'+opacity+')';

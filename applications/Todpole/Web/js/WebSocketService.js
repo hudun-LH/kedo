@@ -29,7 +29,9 @@ var WebSocketService = function(model, webSocket) {
 		}
 		
 		var tadpole = model.tadpoles[data.id];
-		
+		if(data.sex){
+			tadpole.sex = data.sex;
+		}
 		if(tadpole.id == model.userTadpole.id) {			
 			tadpole.name = data.name;
 			return;
@@ -95,7 +97,8 @@ var WebSocketService = function(model, webSocket) {
 			x: tadpole.x.toFixed(1),
 			y: tadpole.y.toFixed(1),
 			angle: tadpole.angle.toFixed(3),
-			momentum: tadpole.momentum.toFixed(3)
+			momentum: tadpole.momentum.toFixed(3),
+			sex: tadpole.sex
 		};
 		
 		if(tadpole.name) {
