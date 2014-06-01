@@ -80,4 +80,8 @@ if(!$uid)
     return;
 }
 
+session_start();
+
+$_SESSION['uid'] = $uid;
+
 include view('icon');
