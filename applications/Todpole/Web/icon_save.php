@@ -22,22 +22,24 @@ $avatarNumber = 1;
 $i = 0;
 $msg = '';
 //上传目录
-$dir = "icon";
+$dir = "icon/$uid";
+
+if(!is_dir($dir))
+{
+    mkdir($dir, 0777, true);
+}
 
 $size_map = array(100,50,32);
 $index = 0;
 //遍历所有文件域
 while (list($key, $val) = each($_FILES))
 {
-    $size = $size_map[$index++];
-    
 	if ( $_FILES[$key]['error'] > 0)
     {
 		$msg .= $_FILES[$key]['error'];
 	}
 	else
 	{
-		$fileName = $uid.'-'.$size;
 		//处理原始图片（默认的 file 域的名称是__source，可在插件配置参数中自定义。参数名：src_field_name）
 		//如果在插件中定义可以上传原始图片的话，可在此处理，否则可以忽略。
 		if ($key == '__source')
@@ -55,6 +57,8 @@ while (list($key, $val) = each($_FILES))
 		//处理头像图片(默认的 file 域的名称：__avatar1,2,3...，可在插件配置参数中自定义，参数名：avatar_field_names)
 		else if (strpos($key, '__avatar') === 0)
 		{
+		    $size = $size_map[$index++];
+		    $fileName = $uid.'-'.$size;
 			$virtualPath = "$dir/$fileName.jpg";
 			$result['avatarUrls'][$i] = '/' . $virtualPath;
 			move_uploaded_file($_FILES[$key]["tmp_name"], $virtualPath);
