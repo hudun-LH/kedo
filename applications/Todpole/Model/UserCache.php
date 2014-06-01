@@ -33,19 +33,19 @@ class UserCache
                 $user_info = $user_table->get('nick,sex',$uid);
                 if($user_info)
                 {
+                    Store::set(self::getKey($uid), $user_info);
                     $user_info['last_update'] = $time_now;
                     self::$cache[$uid] = $user_info;
-                    Store::set(self::getKey($uid), $user_info);
                     return $user_info;
                 }
                 else
                 {
-                    self::$cache[$uid] = array();
+                    self::$cache[$uid] = array('last_update' => $time_now);
                 }
             }
             else
             {
-                self::$cache[$uid] = array();
+                self::$cache[$uid] = array('last_update' => $time_now);
             }
         }
         return self::$cache[$uid];
