@@ -25,7 +25,7 @@ foreach($need as $key)
 $nick = addslashes($_POST['nick']);
 $email = addslashes($_POST['email']);
 $sex = (int)$_POST['sex'];
-$password = addcslashes($_POST['password']);
+$password = addslashes($_POST['password']);
 
 if(strlen($nick) > $NAME_MAX_LEN*3)
 {
