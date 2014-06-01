@@ -7,11 +7,6 @@
  * 
  */
 
-if(!defined('WORKERMAN_LOG_DIR'))
-{
-    define('WORKERMAN_LOG_DIR', ROOT_DIR . '/../../workerman/logs/');
-}
-
 class Store
 {
     // 为了避免频繁读取磁盘，增加了缓存机制

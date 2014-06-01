@@ -14,7 +14,7 @@ if(!function_exists('is_mobile'))
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Workerman小蝌蚪互动聊天室</title>
+		<title>Workerman小蝌蚪互动聊天室 HTML5+Websocket+PHP多进程socket实时推送技术</title>
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />		
     <meta name="apple-mobile-web-app-capable" content="YES">
@@ -22,7 +22,7 @@ if(!function_exists('is_mobile'))
 	   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png"/>
 		<meta property="fb:app_id" content="149260988448984" />
 		<meta name="title" content="Workerman-todpole!" />
-		<meta name="description" content="这是一个奇葩、无底线的小蝌蚪们的世界，在大家不知道彼此是谁，但是确可以感知对方的存在，大家可以实时互动、可以实时聊天、可以同城交友、可以寻找异性伙伴。我们都是蝌蚪，我们不仅找妈妈" />
+		<meta name="description" content="workerman + HTML5+WebSocket +PHP socket 广播 小蝌蚪交互游戏程序 ，坐标实时推送、实时聊天等" />
 		<link rel="image_src" href="/images/fb-image.jpg" / >
 	</head>
 	<body>
@@ -38,19 +38,14 @@ if(!function_exists('is_mobile'))
 			<div id="instructions">
 				<h2>介绍</h2>
 				<p>直接打字聊天!<br />输入 name: XX 则会设置你的昵称为XX</p>
-				<a href="javascript:login();;return false;">登录</a>&nbsp;<a href="javascript:reg();;return false;">注册</a>
 			</div>
 			<aside id="info">
 			<section id="share">
-				<script type="text/javascript">
-/*125*125，创建于2014-5-19*/
-var cpro_id = "u1560945";
-</script>
-<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+				       <a rel="external" href="http://github.com/walkor/workerman-todpole" title="workerman-todpole at GitHub">源代码：<img src="css/images/github.png" alt="fork on github"></a>
+				       &nbsp;&nbsp;
 			</section>
 			<section id="wtf">
-			<br><br><br><br>
-				<h2><a rel="external" href="http://github.com/walkor/workerman-todpole" title="workerman-todpole at GitHub">源代码：<img src="css/images/github.png" alt="fork on github"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://workerman.net/workerman-todpole" target="_blank">安装教程</a> &nbsp;&nbsp;&nbsp;&nbsp;感谢<a href="http://rumpetroll.com/" target="_blank">rumpetroll.com</a>提供的界面</h2>
+				<h2>powered&nbsp;by&nbsp;<a rel="external" href="http://workerman.net/workerman-todpole" target="_blank">workerman</a> &nbsp;&nbsp;&nbsp;&nbsp;感谢<a href="http://rumpetroll.com/" target="_blank">rumpetroll.com</a>提供的界面</h2>
 			</section>
 			</aside>
 			<?php }?>

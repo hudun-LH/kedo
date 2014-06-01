@@ -7,8 +7,6 @@ var Tadpole = function() {
 	
 	this.name = '';
 	this.age = 0;
-	this.sex = -1;
-	this.authorized = false;
 	
 	this.hover = false;
 
@@ -116,12 +114,8 @@ var Tadpole = function() {
 		var opacity = Math.max(Math.min(20 / Math.max(tadpole.timeSinceLastServerUpdate-300,1),1),.2).toFixed(3);
 
 		if(tadpole.hover && isAuthorized()) {
-			if(tadpole.sex == 0){
-				context.fillStyle = 'rgba(255, 181, 197,'+opacity+')';
-			}
-			else if(tadpole.sex == 1){
-				context.fillStyle = 'rgba(192, 253, 247,'+opacity+')';
-			}
+			context.fillStyle = 'rgba(192, 253, 247,'+opacity+')';
+			// context.shadowColor   = 'rgba(249, 136, 119, '+opacity*0.7+')';
 		}
 		else {
 			context.fillStyle = 'rgba(226,219,226,'+opacity+')';
@@ -149,7 +143,6 @@ var Tadpole = function() {
 	};
 	
 	var isAuthorized = function() {
-		return tadpole.authorized;
 		return tadpole.name.charAt('0') == "@";
 	};
 	

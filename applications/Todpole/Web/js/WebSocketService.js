@@ -12,14 +12,10 @@ var WebSocketService = function(model, webSocket) {
 		model.userTadpole.id = data.id;
 		model.tadpoles[data.id] = model.tadpoles[-1];
 		delete model.tadpoles[-1];
+		
 		$('#chat').initChat();
-		if(data.name){
-			webSocketService.sendMessage('name:'+data.name);
-		}else if($.cookie('todpole_name'))	{
+		if($.cookie('todpole_name'))	{
 			webSocketService.sendMessage('name:'+$.cookie('todpole_name'));
-		}
-		if(data.sex){
-			model.userTadpole.sex = data.sex;
 		}
 	};
 	
@@ -33,10 +29,7 @@ var WebSocketService = function(model, webSocket) {
 		}
 		
 		var tadpole = model.tadpoles[data.id];
-		tadpole.authorized = data.authorized;
-		if(tadpole.sex == -1 && "undefined" != typeof data.sex){
-			tadpole.sex = data.sex;
-		}
+		
 		if(tadpole.id == model.userTadpole.id) {			
 			tadpole.name = data.name;
 			return;

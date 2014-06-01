@@ -9,8 +9,6 @@
 
 require_once ROOT_DIR . '/Lib/Gateway.php';
 require_once ROOT_DIR . '/Protocols/WebSocket.php';
-require_once ROOT_DIR . '/Lib/DB/Table.php';
-require_once ROOT_DIR . '/Model/UserCache.php';
 
 class Event
 {
@@ -35,36 +33,13 @@ class Event
            $new_message .= "Sec-WebSocket-Version: 13\r\n";
            $new_message .= "Connection: Upgrade\r\n";
            $new_message .= "Sec-WebSocket-Accept: " . $new_key . "\r\n\r\n";
-           
-           if(preg_match("/".session_name()."=*([0-9a-zA-Z]+)/", $message, $match))
+           // 把时间戳当成uid，todpole程序uid固定为6位数字
+           $uid = (substr(strval(microtime(true)), 6, 7)*100)%1000000;
+           if($uid<100000)
            {
-               $sid = $match[1];
-               if($raw = file_get_contents(session_save_path() ? session_save_path()."/sess_" . $sid : '/tmp/sess_'. $sid))
-               {
-                   @session_start();
-                   session_decode($raw);
-               }
+               $uid += 100000; 
            }
-           
-           if(!isset($_SESSION['uid']))
-           {
-               // 把时间戳当成uid
-               $uid =  (int) (substr(strval(microtime(true)), 3)*100);
-               if($uid<100000000)
-               {
-                   $uid += 100000000; 
-               }
-               $new_message .= WebSocket::encode('{"type":"welcome","id":'.$uid.'}');
-           }
-           else 
-           {
-               $uid = $_SESSION['uid'];
-               $user_table = new Table('user', 'uid'); 
-               $user_info = $user_table->get('nick,sex', $uid);
-               $user_name = $user_info['nick'];
-               $sex = $user_info['sex'];
-               $new_message .= WebSocket::encode('{"type":"welcome","id":'.$uid.', "name":"'.$user_name.'", "sex":'.$sex.'}');
-           }
+           $new_message .= pack("H*", '811e').'{"type":"welcome","id":'.$uid.'}';
            
            // 记录uid到gateway通信地址的映射
            GateWay::storeUid($uid);
@@ -118,27 +93,20 @@ class Event
         {
             // 更新用户
             case 'update':
-                $new_message_data = array(
-                    'type'     => 'update',
-                    'id'         => $uid,
-                    'angle'   => $message_data["angle"]+0,
-                    'momentum' => $message_data["momentum"] > 3 ? 2 : $message_data["momentum"] + 0,
-                    'x'                   => $message_data["x"]+0,
-                    'y'                   => $message_data["y"]+0,
-                    'life'                => 1,
-                    'name'           => isset($message_data['name']) ? $message_data['name'] : 'Guest.'.$uid,
-                    'authorized'  => $uid < 100000000,
-                );
-                if($uid < 100000000)
-                {
-                    $user_info = UserCache::get($uid);
-                    if(isset($user_info['sex']))
-                    {
-                        $new_message_data['sex'] = $user_info['sex'];
-                    }
-                }
                 // 转播给所有用户
-                Gateway::sendToAll(json_encode( $new_message_data));
+                Gateway::sendToAll(json_encode(
+                        array(
+                                'type'     => 'update',
+                                'id'         => $uid,
+                                'angle'   => $message_data["angle"]+0,
+                                'momentum' => $message_data["momentum"]+0,
+                                'x'                   => $message_data["x"]+0,
+                                'y'                   => $message_data["y"]+0,
+                                'life'                => 1,
+                                'name'           => isset($message_data['name']) ? $message_data['name'] : 'Guest.'.$uid,
+                                'authorized'  => false,
+                                )
+                        ));
                 return;
             // 聊天
             case 'message':
