@@ -211,6 +211,10 @@ var App = function(aSettings, aCanvas) {
 		resizeCanvas();
 	};
 	
+	app.setsex = function(sex){
+		model.userTadpole.sex = sex;
+	}
+	
 	var getMouseWorldPosition = function() {
 		return {
 			x: (mouse.x + (model.camera.x * model.camera.zoom - canvas.width / 2)) / model.camera.zoom,

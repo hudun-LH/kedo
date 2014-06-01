@@ -85,9 +85,9 @@ $(document).ready(function(){
 		app.sendMessage('name:'+$('#nick').val());
 	});
 	$('#sex0').click(function(){
-		app.model.userTadpole.sex = 0;
+		app.setsex(0);
 	});
 	$('#sex1').click(function(){
-		app.model.userTadpole.sex = 1;
+		app.setsex(1);
 	});
 });
