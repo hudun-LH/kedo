@@ -3,6 +3,7 @@
  * 在flash的参数名upload_url中可自行定义一些参数（请求方式：GET），定义后在服务器端获取即可，比如可以应用到用户验证，文件的保存名等。
  * 本示例未作极致的用户体验与严谨的安全设计（如用户直接访问此页时该如何，万一客户端数据不可信时验证文件的大小、类型等），只保证正常情况下无误，请阁下注意。
  */
+require_once __DIR__ . '/_init.php';
 session_start();
 if(!isset($_SESSION['uid']))
 {
@@ -22,7 +23,7 @@ $avatarNumber = 1;
 $i = 0;
 $msg = '';
 //上传目录
-$dir = "icon/$uid";
+$dir = ROOT_DIR."/Web/icon/$uid";
 
 if(!is_dir($dir))
 {
