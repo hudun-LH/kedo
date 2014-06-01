@@ -7,6 +7,7 @@ var Tadpole = function() {
 	
 	this.name = '';
 	this.age = 0;
+	this.authorized = false;
 	
 	this.hover = false;
 
@@ -143,6 +144,7 @@ var Tadpole = function() {
 	};
 	
 	var isAuthorized = function() {
+		return tadpole.authorized;
 		return tadpole.name.charAt('0') == "@";
 	};
 	

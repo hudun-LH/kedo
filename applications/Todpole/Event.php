@@ -128,7 +128,7 @@ class Event
                                 'y'                   => $message_data["y"]+0,
                                 'life'                => 1,
                                 'name'           => isset($message_data['name']) ? $message_data['name'] : 'Guest.'.$uid,
-                                'authorized'  => false,
+                                'authorized'  => $uid < 100000000,
                                 )
                         ));
                 return;
