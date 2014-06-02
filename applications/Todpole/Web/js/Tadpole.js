@@ -121,14 +121,12 @@ var Tadpole = function() {
 			}else{
 				context.fillStyle = 'rgba(192, 253, 247,'+opacity+')';
 			}
-			if(!has_set_timeout && !timeout){
-				has_set_timeout = 1;
-				setTimeout(function(){timeout=1;has_set_timeout=0;}, 1000);
-			}
-			
+			timeout = 1;
 		}
 		else {
-			hover = 0;
+			if(timeout){
+				setTimeout(function(){if(!tadpole.hover){timeout=0;}, 1000});
+			}
 			context.fillStyle = 'rgba(226,219,226,'+opacity+')';
 		}
 		

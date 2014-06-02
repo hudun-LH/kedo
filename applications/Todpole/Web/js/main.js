@@ -91,6 +91,3 @@ $(document).ready(function(){
 		app.setsex(1);
 	});
 });
-hover = 0;
-has_set_timeout = 0;
-setInterval(function(){if(!hover)timeout=0;});
