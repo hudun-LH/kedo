@@ -122,14 +122,7 @@ var Tadpole = function() {
 				context.fillStyle = 'rgba(192, 253, 247,'+opacity+')';
 			}
 			
-			if(!timeout && !has_set_timeout){
-				has_set_timeout = 1;
-				setTimeout(function(){has_set_timeout=0;if(tadpole.hover) timeout=1;}, 1000);
-			}
-			
-			if(timeout){
-				drawIcon(context);
-			}
+			drawIcon(context);
 		}
 		else {
 			timeout = 0;
@@ -182,7 +175,7 @@ var Tadpole = function() {
 		var img= new Image();
 		img.src=tadpole.icon;
 		img.onerror = function(){img.src='/images/default.png';}
-		context.drawImage(img, tadpole.x-30, tadpole.y-50);
+		context.drawImage(img, tadpole.x-30, tadpole.y-58);
 	};
 	
 	// Constructor
