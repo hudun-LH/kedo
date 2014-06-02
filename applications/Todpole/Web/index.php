@@ -25,12 +25,10 @@ if(!function_exists('is_mobile'))
 		<meta name="description" content="workerman + HTML5+WebSocket +PHP socket 广播 小蝌蚪交互游戏程序 ，坐标实时推送、实时聊天等" />
 		<link rel="image_src" href="/images/fb-image.jpg" / >
 		<link rel="stylesheet" href="css/jquery.fileupload.css">
-		<link rel="stylesheet" href="/css/bootstrap.min.css">
 		<script src="/js/jquery.min.js"></script>
+		<script src="js/lib/jquery.ui.widget.js"></script>
 		<script src="js/lib/jquery.iframe-transport.js"></script>
 		<script src="js/lib/jquery.fileupload.js"></script>
-		<script src="js/lib/jquery.ui.widget.js"></script>
-		<script src="js/lib/bootstrap.min.js"></script>
 	</head>
 	<body>
 		<canvas id="canvas"></canvas>
