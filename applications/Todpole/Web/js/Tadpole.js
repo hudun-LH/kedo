@@ -125,7 +125,7 @@ var Tadpole = function() {
 		}
 		else {
 			if(timeout){
-				setTimeout(function(){if(!tadpole.hover){timeout=0;}, 1000});
+				setTimeout(function(){!tadpole.hover && timeout=0;}, 1000);
 			}
 			context.fillStyle = 'rgba(226,219,226,'+opacity+')';
 		}
