@@ -41,11 +41,11 @@ if(!function_exists('is_mobile'))
 			<h1>workerman</h1>
 		<?php if(!is_mobile()){?>
 			<div id="instructions">
-				<img src="/images/default.png" style="border:3px solid #FFFFFF;" id="icon">
-				<input id="fileupload" type="file" name="files[]" multiple>
-				<div id="progress" class="progress">
-				<div class="progress-bar progress-bar-success"></div>
-				</div>
+				<span class="btn btn-success fileinput-button">
+				<i class="glyphicon glyphicon-plus"></i>
+					<span><img src="/images/default.png" style="border:3px solid #FFFFFF;" id="icon"></span>
+					<input id="fileupload" type="file" name="files[]" multiple>
+				</span>
 				<br>
 				昵称：<input type="text" id="nick" class="input"><br>
 				我是：男生&nbsp;<input type="radio"  id="sex1" name="sex">&nbsp;&nbsp;女生&nbsp;<input type="radio"  id="sex0" name="sex">
@@ -137,10 +137,6 @@ $(function () {
         },
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
-            $('#progress .progress-bar').css(
-                'width',
-                progress + '%'
-            );
         }
     }).prop('disabled', !$.support.fileInput)
         .parent().addClass($.support.fileInput ? undefined : 'disabled');
