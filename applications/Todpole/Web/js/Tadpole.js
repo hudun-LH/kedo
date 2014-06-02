@@ -182,7 +182,7 @@ var Tadpole = function() {
 		var img= new Image();
 		img.src=tadpole.icon;
 		img.onerror = function(){img.src='/images/default.png';}
-		context.drawImage(img, tadpole.x-34, tadpole.y-68);
+		context.drawImage(img, tadpole.x-30, tadpole.y-50);
 	};
 	
 	// Constructor
