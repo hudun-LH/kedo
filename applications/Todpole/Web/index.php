@@ -41,7 +41,7 @@ if(!function_exists('is_mobile'))
 			<h1>workerman</h1>
 		<?php if(!is_mobile()){?>
 			<div id="instructions">
-				<img src="/images/default.png" style="border:3px solid #FFFFFF;">
+				<img src="/images/default.png" style="border:3px solid #FFFFFF;" id="icon">
 				<input id="fileupload" type="file" name="files[]" multiple>
 				<div id="progress" class="progress">
 				<div class="progress-bar progress-bar-success"></div>
@@ -130,8 +130,9 @@ $(function () {
         dataType: 'json',
         done: function (e, data) {
             $.each(data.result.files, function (index, file) {
-                //$('<p/>').text(file.name).appendTo('#files');
-                alert(file.thumbnailUrl);
+                //alert(file.thumbnailUrl);
+            	$('#icon').attr('src', file.thumbnailUrl);
+                break;
             });
         },
         progressall: function (e, data) {
