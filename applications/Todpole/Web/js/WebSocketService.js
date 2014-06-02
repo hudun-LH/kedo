@@ -42,17 +42,18 @@ var WebSocketService = function(model, webSocket) {
 		}
 		
 		var tadpole = model.tadpoles[data.id];
-		if("undefined" != typeof data.sex ){
-			tadpole.sex = data.sex;
-		}
-		if("undefined" != typeof data.icon){
-			tadpole.icon = data.icon;
-		}
 		if(tadpole.id == model.userTadpole.id) {			
 			tadpole.name = data.name;
 			return;
 		} else {
 			tadpole.name = data.name;
+		}
+		
+		if("undefined" != typeof data.sex ){
+			tadpole.sex = data.sex;
+		}
+		if("undefined" != typeof data.icon){
+			tadpole.icon = data.icon;
 		}
 		
 		if(newtp) {
