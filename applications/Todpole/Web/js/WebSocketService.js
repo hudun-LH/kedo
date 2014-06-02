@@ -17,6 +17,19 @@ var WebSocketService = function(model, webSocket) {
 		if($.cookie('todpole_name'))	{
 			webSocketService.sendMessage('name:'+$.cookie('todpole_name'));
 		}
+		if($.cookie('sex')){
+			model.userTadpole.sex = $.cookie('sex');
+			if($.cookie('sex') == 1){
+				$('#sex1').attr('checked','checked');
+			}else if($.cookie('sex') == 0){
+				$('#sex0').attr('checked','checked');
+			}
+			$.cookie('sex', model.userTadpole.sex, {expires:14});
+		}
+		if($.cookie('icon')){
+			$('#icon').attr('src', $cookie('icon'));
+			$.cookie('icon', $.cookie('icon'), {expires:14});
+		}
 	};
 	
 	this.updateHandler = function(data) {
@@ -98,7 +111,8 @@ var WebSocketService = function(model, webSocket) {
 			y: tadpole.y.toFixed(1),
 			angle: tadpole.angle.toFixed(3),
 			momentum: tadpole.momentum.toFixed(3),
-			sex: tadpole.sex
+			sex: tadpole.sex,
+			icon:tadpole.icon
 		};
 		
 		if(tadpole.name) {

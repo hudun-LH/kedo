@@ -213,6 +213,12 @@ var App = function(aSettings, aCanvas) {
 	
 	app.setsex = function(sex){
 		model.userTadpole.sex = sex;
+		$.cookie('sex', sex, {expires:14});
+	}
+	
+	app.seticon = function(icon){
+		model.userTadpole.icon = icon;
+		$.cookie('icon', icon, {expires:14});
 	}
 	
 	var getMouseWorldPosition = function() {

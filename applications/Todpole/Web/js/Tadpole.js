@@ -8,6 +8,7 @@ var Tadpole = function() {
 	this.name = '';
 	this.age = 0;
 	this.sex = -1;
+	this.icon = '/images/default.png';
 	
 	this.hover = false;
 
