@@ -124,7 +124,7 @@ var Tadpole = function() {
 			
 			if(!timeout && !has_set_timeout){
 				has_set_timeout = 1;
-				setTimeout(function(){has_set_timeout=0;tadpole.hover && timeout=1;}, 1000);
+				setTimeout(function(){has_set_timeout=0;if(tadpole.hover) timeout=1;}, 1000);
 			}
 			
 			if(timeout){

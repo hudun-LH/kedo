@@ -23,8 +23,8 @@
     -ms-filter: 'alpha(opacity=0)';
     direction: ltr;
     cursor: pointer;
-    width: 68px;
-    height: 68px;
+    width: 58px;
+    height: 58px;
 }
 
 /* Fixes for IE < 8 */
