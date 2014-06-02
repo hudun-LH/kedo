@@ -28,6 +28,7 @@ var WebSocketService = function(model, webSocket) {
 		}
 		if($.cookie('icon')){
 			$('#icon').attr('src', $.cookie('icon'));
+			model.userTadpole.icon = $.cookie('icon');
 			$.cookie('icon', $.cookie('icon'), {expires:14});
 		}
 	};

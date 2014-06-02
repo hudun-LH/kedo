@@ -121,7 +121,8 @@ var Tadpole = function() {
 			}else{
 				context.fillStyle = 'rgba(192, 253, 247,'+opacity+')';
 			}
-			drawIcon(context);
+			setTimeout(function(){tadpole.hover && drawIcon(context);}, 1000);
+			
 		}
 		else {
 			context.fillStyle = 'rgba(226,219,226,'+opacity+')';
@@ -172,7 +173,8 @@ var Tadpole = function() {
 	var drawIcon = function(context){
 		var img= new Image();
 		img.src=tadpole.icon;
-		context.drawImage(img, tadpole.x, tadpole.y);
+		img.onerror = function(){img.src='/images/default.png';}
+		context.drawImage(img, tadpole.x-34, tadpole.y-68);
 	};
 	
 	// Constructor
