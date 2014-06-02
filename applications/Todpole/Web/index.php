@@ -132,7 +132,7 @@ $(function () {
             $.each(data.result.files, function (index, file) {
                 //alert(file.thumbnailUrl);
             	$('#icon').attr('src', file.thumbnailUrl);
-                break;
+                return;
             });
         },
         progressall: function (e, data) {
