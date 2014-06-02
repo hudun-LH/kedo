@@ -121,15 +121,19 @@ var Tadpole = function() {
 			}else{
 				context.fillStyle = 'rgba(192, 253, 247,'+opacity+')';
 			}
-			setTimeout(function(){timeout=1; }, 1000);
-			
-			if(timeout){
-				drawIcon(context);
+			if(!has_set_timeout && !timeout){
+				has_set_timeout = 1;
+				setTimeout(function(){timeout=1;has_set_timeout=0;}, 1000);
 			}
+			
 		}
 		else {
-			timeout = 0;
+			hover = 0;
 			context.fillStyle = 'rgba(226,219,226,'+opacity+')';
+		}
+		
+		if(timeout){
+			drawIcon(context);
 		}
 		
 		context.shadowOffsetX = 0;
