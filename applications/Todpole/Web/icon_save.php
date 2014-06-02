@@ -6,7 +6,7 @@ if(!defined('ROOT_DIR'))
 
 if(!defined('UPLOAD_DIR'))
 {
-    define('UPLOAD_DIR', ROOT_DIR . '/icon');
+    define('UPLOAD_DIR', ROOT_DIR . '/icon/');
 }
 
 require_once ROOT_DIR . '/Lib/IconUpload.php';
