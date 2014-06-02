@@ -24,6 +24,11 @@ if(!function_exists('is_mobile'))
 		<meta name="title" content="Workerman-todpole!" />
 		<meta name="description" content="workerman + HTML5+WebSocket +PHP socket 广播 小蝌蚪交互游戏程序 ，坐标实时推送、实时聊天等" />
 		<link rel="image_src" href="/images/fb-image.jpg" / >
+		<link rel="stylesheet" href="css/jquery.fileupload.css">
+		<script src="js/lib/jquery.iframe-transport.js"></script>
+		<script src="js/lib/jquery.fileupload.js"></script>
+		<script src="js/lib/jquery.ui.widget.js"></script>
+		<script src="/js/jquery.min.js"></script>
 	</head>
 	<body>
 		<canvas id="canvas"></canvas>
@@ -36,7 +41,9 @@ if(!function_exists('is_mobile'))
 			<h1>workerman</h1>
 		<?php if(!is_mobile()){?>
 			<div id="instructions">
-				<img src="/images/default.png" style="border:3px solid #FFFFFF;"><br>
+				<img src="/images/default.png" style="border:3px solid #FFFFFF;">
+				<input id="fileupload" type="file" name="files[]" multiple>
+				<br>
 				昵称：<input type="text" id="nick" class="input"><br>
 				我是：男生&nbsp;<input type="radio"  id="sex1" name="sex">&nbsp;&nbsp;女生&nbsp;<input type="radio"  id="sex0" name="sex">
 			</div>
@@ -109,6 +116,31 @@ if(!function_exists('is_mobile'))
 var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
 document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F5fedb3bdce89499492c079ab4a8a0323' type='text/javascript'%3E%3C/script%3E"));
 </script>
-		
+		<script>
+/*jslint unparam: true */
+/*global window, $ */
+$(function () {
+    'use strict';
+    // Change this to the location of your server-side upload handler:
+    var url '/icon_save.php';
+    $('#fileupload').fileupload({
+        url: url,
+        dataType: 'json',
+        done: function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                $('<p/>').text(file.name).appendTo('#files');
+            });
+        },
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .progress-bar').css(
+                'width',
+                progress + '%'
+            );
+        }
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+});
+</script>
 	</body>
 </html>
