@@ -27,7 +27,7 @@ var WebSocketService = function(model, webSocket) {
 			$.cookie('sex', model.userTadpole.sex, {expires:14});
 		}
 		if($.cookie('icon')){
-			$('#icon').attr('src', $cookie('icon'));
+			$('#icon').attr('src', $.cookie('icon'));
 			$.cookie('icon', $.cookie('icon'), {expires:14});
 		}
 	};
