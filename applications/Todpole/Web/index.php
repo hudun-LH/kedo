@@ -131,7 +131,7 @@ $(function () {
         done: function (e, data) {
             $.each(data.result.files, function (index, file) {
                 //$('<p/>').text(file.name).appendTo('#files');
-                alert(file.name);
+                alert(file.thumbnailUrl);
             });
         },
         progressall: function (e, data) {

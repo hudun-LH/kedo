@@ -10,8 +10,8 @@ if(!defined('UPLOAD_DIR'))
 }
 
 require_once ROOT_DIR . '/Lib/IconUpload.php';
-$upload_handler = new UploadHandler();
-
 $upload_handler = new UploadHandler(array(
         'upload_dir'    => UPLOAD_DIR,
+        'upload_url'    => '/icon/',
+        'user_dirs'        => true,
 ));
