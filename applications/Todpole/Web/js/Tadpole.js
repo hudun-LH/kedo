@@ -121,6 +121,7 @@ var Tadpole = function() {
 			}else{
 				context.fillStyle = 'rgba(192, 253, 247,'+opacity+')';
 			}
+			drawIcon(context);
 		}
 		else {
 			context.fillStyle = 'rgba(226,219,226,'+opacity+')';
@@ -168,6 +169,11 @@ var Tadpole = function() {
 		tadpole.messages.reverse();
 	};
 	
+	var drawIcon = function(context){
+		var img= new Image();
+		img.src=tadpole.icon;
+		context.drawImage(img, tadpole.x, tadpole.y);
+	}
 	
 	// Constructor
 	(function() {
