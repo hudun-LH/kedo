@@ -106,6 +106,7 @@ class Event
                                 'name'           => isset($message_data['name']) ? $message_data['name'] : 'Guest.'.$uid,
                                 //'authorized'  => false,
                                 'sex'               => $message_data["sex"]+0,
+                                'icon'             => $message_data['icon'],
                                 )
                         ));
                 return;
