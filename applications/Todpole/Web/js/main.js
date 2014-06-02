@@ -2,7 +2,8 @@ var settings = new Settings();
 
 var debug = false;
 var isStatsOn = false;
-
+var timeout = 0;
+var has_set_timeout = 0;
 var authWindow;
 
 var app;

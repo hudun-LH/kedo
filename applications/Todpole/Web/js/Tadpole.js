@@ -121,17 +121,19 @@ var Tadpole = function() {
 			}else{
 				context.fillStyle = 'rgba(192, 253, 247,'+opacity+')';
 			}
-			timeout = 1;
+			
+			if(!timeout && !has_set_timeout){
+				has_set_timeout = 1;
+				setTimeout(function(){has_set_timeout=0;tadpole.hover && timeout=1;}, 1000);
+			}
+			
+			if(timeout){
+				drawIcon(context);
+			}
 		}
 		else {
-			if(timeout){
-				setTimeout(function(){!tadpole.hover && timeout=0;}, 1000);
-			}
+			timeout = 0;
 			context.fillStyle = 'rgba(226,219,226,'+opacity+')';
-		}
-		
-		if(timeout){
-			drawIcon(context);
 		}
 		
 		context.shadowOffsetX = 0;
