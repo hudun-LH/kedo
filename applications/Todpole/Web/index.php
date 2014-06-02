@@ -95,7 +95,6 @@ if(!function_exists('is_mobile'))
 
 		<script src="/js/lib/parseUri.js"></script> 
 		<script src="/js/lib/modernizr-1.5.min.js"></script>
-		<script src="/js/jquery.min.js"></script>
 		<script src="/js/lib/Stats.js"></script>
 		
 		<script src="/js/App.js"></script>
