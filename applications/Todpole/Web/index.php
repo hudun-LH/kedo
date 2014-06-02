@@ -127,7 +127,7 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 $(function () {
     'use strict';
     // Change this to the location of your server-side upload handler:
-    var url '/icon_save.php';
+    var url = '/icon_save.php';
     $('#fileupload').fileupload({
         url: url,
         dataType: 'json',
