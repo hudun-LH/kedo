@@ -132,6 +132,7 @@ $(function () {
             $.each(data.result.files, function (index, file) {
                 //alert(file.thumbnailUrl);
             	$('#icon').attr('src', file.thumbnailUrl);
+            	app.seticon(file.thumbnailUrl);
                 return;
             });
         },
