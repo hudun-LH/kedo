@@ -173,7 +173,7 @@ var Tadpole = function() {
 		var img= new Image();
 		img.src=tadpole.icon;
 		context.drawImage(img, tadpole.x, tadpole.y);
-	}
+	};
 	
 	// Constructor
 	(function() {
