@@ -121,10 +121,14 @@ var Tadpole = function() {
 			}else{
 				context.fillStyle = 'rgba(192, 253, 247,'+opacity+')';
 			}
-			setTimeout(function(){tadpole.hover && drawIcon(context);}, 1000);
+			setTimeout(function(){timeout=1; }, 1000);
 			
+			if(timeout){
+				drawIcon(context);
+			}
 		}
 		else {
+			timeout = 0;
 			context.fillStyle = 'rgba(226,219,226,'+opacity+')';
 		}
 		
