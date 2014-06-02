@@ -48,7 +48,7 @@ if(!function_exists('is_mobile'))
 				</span>
 				<br>
 				昵称：<input type="text" id="nick" class="input"><br>
-				我是：<b style="color:rgb(192, 253, 247)">男生</b>b>&nbsp;<input type="radio"  id="sex1" name="sex">&nbsp;&nbsp;<b style="color:rgb(255, 181, 197)">女生</b>&nbsp;<input type="radio"  id="sex0" name="sex">
+				我是：<b style="color:rgb(192, 253, 247)">男生</b>&nbsp;<input type="radio"  id="sex1" name="sex">&nbsp;&nbsp;<b style="color:rgb(255, 181, 197)">女生</b>&nbsp;<input type="radio"  id="sex0" name="sex">
 			</div>
 			<aside id="info">
 			<section id="share">
