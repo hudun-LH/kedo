@@ -226,10 +226,8 @@ a#force-init-button:hover {
 #instructions {
 	position: absolute;
 	top: 30px;
-	right: 60px;
-	text-align: center;
-	color: 
-	white;
+	right: 30px;
+	color: white;
 	font-size: 14px;
 	line-height: 200%;
 }
@@ -238,6 +236,12 @@ a#force-init-button:hover {
     width: 110px;
 }
 
+#instructions  img{
+	border: 1px solid white;
+	-moz-box-shadow: 1px 1px 8px #ccc;
+	-webkit-box-shadow: 1px 1px 8px #ccc;
+    box-shadow: 1px 1px 8px #ccc;
+}
 
 #fwa {
 	display: none; /*remove on 27th November 2010*/

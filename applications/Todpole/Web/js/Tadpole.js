@@ -175,7 +175,7 @@ var Tadpole = function() {
 		var img= new Image();
 		img.src=tadpole.icon;
 		img.onerror = function(){img.src='/images/default.png';}
-		context.drawImage(img, tadpole.x-30, tadpole.y-58);
+		context.drawImage(img, tadpole.x-15, tadpole.y-38, 30, 30);
 	};
 	
 	// Constructor
