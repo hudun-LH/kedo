@@ -9,6 +9,7 @@ var Tadpole = function() {
 	this.age = 0;
 	this.sex = -1;
 	this.icon = '/images/default.png';
+	this.img = {};
 	
 	this.hover = false;
 
@@ -172,10 +173,18 @@ var Tadpole = function() {
 	};
 	
 	var drawIcon = function(context){
-		var img= new Image();
-		img.src=tadpole.icon;
-		img.onerror = function(){img.src='/images/default.png';}
-		context.drawImage(img, tadpole.x-15, tadpole.y-38, 30, 30);
+		if('undefined' == typeof tadpole.img || 'undefined' == typeof tadpole.img.src || tadpole.img.src != tadpole.icon){
+		    var img= new Image();
+		    img.src=tadpole.icon;
+		    img.onerror = function(){img.src='/images/default.png';}
+		    tadpole.img = img;
+		}
+		
+		if(tadpole.img.complete){
+		    w = tadpole.img.width;
+		    h = tadpole.img.height;
+		    context.drawImage(tadpole.img, tadpole.x-15, tadpole.y-38, w/h >= 1 ? 30 : (30*w)/h, h/w >=1 ? 30 : (30*h)/w);
+		}
 	};
 	
 	// Constructor
