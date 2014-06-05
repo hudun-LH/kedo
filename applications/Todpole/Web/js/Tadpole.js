@@ -191,7 +191,7 @@ var Tadpole = function() {
 		    var y = tadpole.y-38;
 		    context.drawImage(tadpole.img, x, y, w, h);
 		    context.fillStyle="rgba(0,0,0,0)";  
-		    context.strokeStyle="fff"; 
+		    context.strokeStyle="#fff"; 
 		    context.linewidth=10; 
 		    context.fillRect(x,y,w,h);
 		    context.strokeRect(x,y,w,h); 
