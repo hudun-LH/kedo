@@ -84,6 +84,7 @@ document.body.onselectstart = function() { return false; }
 $(document).ready(function(){
 	$('#nick').blur(function(){
 		app.sendMessage('name:'+$('#nick').val());
+		$('#chat').focus();
 	});
 	$('#sex0').click(function(){
 		app.setsex(0);
