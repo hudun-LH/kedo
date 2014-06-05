@@ -116,17 +116,19 @@ var Tadpole = function() {
 	this.draw = function(context) {
 		var opacity = Math.max(Math.min(20 / Math.max(tadpole.timeSinceLastServerUpdate-300,1),1),.2).toFixed(3);
 
-		if(tadpole.hover && tadpole.sex != -1) {
-			if(tadpole.sex == 0){
-				context.fillStyle = 'rgba(255, 181, 197,'+opacity+')';
-			}else{
-				context.fillStyle = 'rgba(192, 253, 247,'+opacity+')';
-			}
-			
+		if(tadpole.hover) {
 			drawIcon(context);
 		}
-		else {
-			timeout = 0;
+		
+		if(tadpole.sex == 0){
+			context.fillStyle = 'rgba(255, 181, 197,'+opacity+')';
+		}else if(tadpole.sex == 1){
+			context.fillStyle = 'rgba(192, 253, 247,'+opacity+')';
+		}
+		/*else if(mouse.tadpole.id == tadpole.id){
+			context.fillStyle = 'rgba(0,191,255,'+opacity+')';
+		}*/
+		else{
 			context.fillStyle = 'rgba(226,219,226,'+opacity+')';
 		}
 		
