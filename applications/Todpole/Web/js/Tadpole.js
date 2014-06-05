@@ -183,9 +183,17 @@ var Tadpole = function() {
 		}
 		
 		if(tadpole.img.complete){
-		    w = tadpole.img.width;
-		    h = tadpole.img.height;
-		    context.drawImage(tadpole.img, tadpole.x-15, tadpole.y-38, w/h >= 1 ? 30 : (30*w)/h, h/w >=1 ? 30 : (30*h)/w);
+		    var w = tadpole.img.width;
+		    var h = tadpole.img.height;
+		    var x = tadpole.x-15; 
+		    var y = tadpole.y-38;
+		    context.drawImage(tadpole.img, x, y, w, h);
+		    context.fillStyle="rgba(0,0,0,0)";  
+		    context.strokeStyle="fff"; 
+		    context.linewidth=10; 
+		    context.fillRect(x,y,w,h);
+		    context.strokeRect(x,y,w,h); 
+		    context.closePath();
 		}
 	};
 	
