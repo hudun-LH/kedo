@@ -185,6 +185,8 @@ var Tadpole = function() {
 		if(tadpole.img.complete){
 		    var w = tadpole.img.width;
 		    var h = tadpole.img.height;
+		    var w =w/h >= 1 ? 30 : (30*w)/h;
+		    var h = h/w >=1 ? 30 : (30*h)/w;
 		    var x = tadpole.x-15; 
 		    var y = tadpole.y-38;
 		    context.drawImage(tadpole.img, x, y, w, h);
