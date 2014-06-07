@@ -43,7 +43,7 @@ if(!function_exists('is_mobile'))
 			<div id="instructions">
 				<span class="btn btn-success fileinput-button">
 				<i class="glyphicon glyphicon-plus"></i>
-					<span><img src="/images/default.png" style="border:3px solid #FFFFFF;" id="icon"></span>
+					<span><img src="/images/upload_icon.png" style="border:3px solid #FFFFFF;" id="icon"></span>
 					<input id="fileupload" type="file" name="files[]" multiple>
 				</span>
 				<br>
