@@ -14,7 +14,7 @@ if(!function_exists('is_mobile'))
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Workerman小蝌蚪互动聊天室 HTML5+Websocket+PHP多进程socket实时推送技术</title>
+		<title>Workerman小蝌蚪互动聊天室</title>
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;" />		
     <meta name="apple-mobile-web-app-capable" content="YES">
@@ -22,7 +22,7 @@ if(!function_exists('is_mobile'))
 	   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png"/>
 		<meta property="fb:app_id" content="149260988448984" />
 		<meta name="title" content="Workerman-todpole!" />
-		<meta name="description" content="workerman + HTML5+WebSocket +PHP socket 广播 小蝌蚪交互游戏程序 ，坐标实时推送、实时聊天等" />
+		<meta name="description" content="这是一个奇葩、无底线的小蝌蚪们的世界，在大家不知道彼此是谁，但是确可以感知对方的存在，大家可以实时互动、可以实时聊天" />
 		<link rel="image_src" href="/images/fb-image.jpg" / >
 		<link rel="stylesheet" href="css/jquery.fileupload.css">
 		<script src="/js/jquery.min.js"></script>
@@ -38,12 +38,11 @@ if(!function_exists('is_mobile'))
 		
 			<input id="chat" type="text" />
 			<div id="chatText"></div>
-			<h1>workerman</h1>
 		<?php if(!is_mobile()){?>
 			<div id="instructions">
 				<span class="btn btn-success fileinput-button">
 				<i class="glyphicon glyphicon-plus"></i>
-					<span><img src="/images/upload_icon.png" style="border:3px solid #FFFFFF;" id="icon"></span>
+					<span><img src="/images/upload_icon.png" id="icon"></span>
 					<input id="fileupload" type="file" name="files[]" multiple>
 				</span>
 				<br>
@@ -52,11 +51,35 @@ if(!function_exists('is_mobile'))
 			</div>
 			<aside id="info">
 			<section id="share">
-				       <a rel="external" href="http://github.com/walkor/workerman-todpole" title="workerman-todpole at GitHub">源代码：<img src="css/images/github.png" alt="fork on github"></a>
-				       &nbsp;&nbsp;
+<?php if(!is_mobile()){ ?>
+<br><br><br><br><br><br><br>
+<!--<img src="/css/images/logo.png" />-->
+<?php }?>
+<script type="text/javascript">
+/*125*125，创建于2014-5-19*/
+var cpro_id = "u1560945";
+</script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
 			</section>
 			<section id="wtf">
-				<h2>powered&nbsp;by&nbsp;<a rel="external" href="http://workerman.net/workerman-todpole" target="_blank">workerman</a> &nbsp;&nbsp;&nbsp;&nbsp;感谢<a href="http://rumpetroll.com/" target="_blank">rumpetroll.com</a>提供的界面</h2>
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+<h2>感谢<a href="http://rumpetroll.com/" target="_blank">rumpetroll.com</a>&nbsp;&nbsp;&nbsp;&nbsp;<a rel="external" href="http://github.com/walkor/workerman-todpole" title="workerman-todpole at GitHub">源代码：<img src="css/images/github.png" alt="fork on github"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://workerman.net/workerman-todpole" target="_blank">安装教程</a> &nbsp;&nbsp;&nbsp;&nbsp;<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share?uid=1936942" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+        <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=eca5de15cc70597f4f952a1bf2bc43dd4326007ead11e9d0eda92b513c5d8dff"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="小蝌蚪群" title="小蝌蚪群"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1401807204434692" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+<h2>
 			</section>
 			</aside>
 			<?php }?>
@@ -114,10 +137,16 @@ if(!function_exists('is_mobile'))
 		
 		<script src="/js/Cookie.js"></script>
 		<script src="/js/main.js"></script>
+
 <script type="text/javascript">
 var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
 document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F5fedb3bdce89499492c079ab4a8a0323' type='text/javascript'%3E%3C/script%3E"));
 </script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Feff9f08a2cac7544e9a6e65e33897704' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
 		<script>
 /*jslint unparam: true */
 /*global window, $ */
@@ -143,5 +172,8 @@ $(function () {
         .parent().addClass($.support.fileInput ? undefined : 'disabled');
 });
 </script>
+        <?php if(!is_mobile()){?>
+        <a href="https://github.com/walkor/workerman-todpole" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="/images/forkme.png" alt="Fork me on GitHub"></a>
+        <?php } ?>
 	</body>
 </html>
