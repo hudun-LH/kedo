@@ -33,7 +33,7 @@ class Master
      * 版本
      * @var string
      */
-    const VERSION = '2.0.1';
+    const VERSION = '2.1.2';
     
     /**
      * 服务名
@@ -172,6 +172,8 @@ class Master
         self::notice("\033[1A\n\033[KWorkerman start success ...\033[0m", true);
         // 标记服务状态为运行中
         self::$serviceStatus = self::STATUS_RUNNING;
+        // 初始化任务
+        \Man\Core\Lib\Task::init();
         // 关闭标准输出
         self::resetStdFd();
         // 主循环
@@ -344,6 +346,7 @@ class Master
                 if(self::createOneWorker($worker_name) == 0)
                 {
                     self::notice("Worker exit unexpected");
+                    exit(500);
                 }
             }
         }
@@ -512,6 +515,8 @@ class Master
                     // 如果对应进程配置了不热启动则不重启对应进程
                     if(Lib\Config::get($worker_name.'.no_reload'))
                     {
+                        // 发送reload信号，以便触发onReload方法
+                        posix_kill($pid, SIGHUP);
                         continue;
                     }
                     $pids_to_restart[] = $pid;
@@ -552,12 +557,9 @@ class Master
      */
     public static function loop()
     {
-        $siginfo = array();
         while(1)
         {
-            @pcntl_sigtimedwait(array(SIGCHLD), $siginfo, 1);
-            // 初始化任务系统
-            Lib\Task::tick();
+            sleep(1);
             // 检查是否有进程退出
             self::checkWorkerExit();
             // 触发信号处理
@@ -605,7 +607,7 @@ class Master
             // 进程退出状态不是0，说明有问题了
             if($status !== 0)
             {
-                self::notice("worker[$pid:$worker_name] exit width status $status");
+                self::notice("worker[$pid:$worker_name] exit with status $status");
             }
             // 记录进程退出状态
             self::$serviceStatusInfo['worker_exit_code'][$worker_name][$status] = isset(self::$serviceStatusInfo['worker_exit_code'][$worker_name][$status]) ? self::$serviceStatusInfo['worker_exit_code'][$worker_name][$status] + 1 : 1;
@@ -805,10 +807,13 @@ class Master
     protected static function setProcUser($worker_user)
     {
         $user_info = posix_getpwnam($worker_user);
-        // 尝试设置gid uid
-        if(!posix_setgid($user_info['gid']) || !posix_setuid($user_info['uid']))
+        if($user_info['uid'] != posix_getuid() || $user_info['gid'] != posix_getgid())
         {
-            self::notice( 'Notice : Can not run woker as '.$worker_user." , You shuld be root\n", true);
+            // 尝试设置gid uid
+            if(!posix_setgid($user_info['gid']) || !posix_setuid($user_info['uid']))
+            {
+                self::notice( 'Notice : Can not run woker as '.$worker_user." , You shuld be root\n", true);
+            }
         }
     }
     

@@ -252,7 +252,7 @@ class Monitor extends Man\Core\SocketWorker
                 // 将过期的消息读出来，清理掉
                 if(\Man\Core\Master::getQueueId())
                 {
-                    while(msg_receive(\Man\Core\Master::getQueueId(), self::MSG_TYPE_STATUS, $msg_type, 1000, $message, true, MSG_IPC_NOWAIT))
+                    while(@msg_receive(\Man\Core\Master::getQueueId(), self::MSG_TYPE_STATUS, $msg_type, 1000, $message, true, MSG_IPC_NOWAIT))
                     {
                     }
                 }
@@ -364,7 +364,7 @@ class Monitor extends Man\Core\SocketWorker
      */
     protected function getStatusFromQueue()
     {
-        if(msg_receive(\Man\Core\Master::getQueueId(), self::MSG_TYPE_STATUS, $msg_type, 10000, $message, true, MSG_IPC_NOWAIT))
+        if(@msg_receive(\Man\Core\Master::getQueueId(), self::MSG_TYPE_STATUS, $msg_type, 10000, $message, true, MSG_IPC_NOWAIT))
         {
             $pid = $message['pid'];
             $worker_name = $message['worker_name'];
@@ -552,8 +552,15 @@ class Monitor extends Man\Core\SocketWorker
         }
     
         $ip = $this->getIp();
-    
-        $this->sendSms('告警消息 WorkerMan框架监控 '.$ip.' '.$worker_name.'进程频繁退出 退出次数'.$exit_count.' 退出状态码：'.$status);
+        
+        if(65280 == $status || 30720 == $status)
+        {
+            $this->sendSms('告警消息 Workerman框架监控 '.$ip.' '.$worker_name.'5分钟内出现 FatalError '.$exit_count.'次 时间:'.date('Y-m-d H:i:s'));
+        }
+        else
+        {
+            $this->sendSms('告警消息 Workerman框架监控 '.$ip.' '.$worker_name.' 进程频繁退出 退出次数'.$exit_count.' 退出状态码：'.$status .' 时间:'.date('Y-m-d H:i:s'));
+        }
     
         // 记录这次告警时间
         self::$lastWarningTimeMap[self::WARNING_TOO_MANY_WORKERS_EXIT] = $time_now;
