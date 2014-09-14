@@ -481,7 +481,7 @@ class Gateway extends Man\Core\SocketWorker
     
             // 关闭链接
             $this->closeInnerClient($fd);
-            $this->notice("CLIENT:".$this->getRemoteIp()." CLOSE INNER_CONNECTION\nBUFFER:[".bin2hex($this->recvBuffers[$fd]['buf'])."]\n");
+            $this->notice("CLIENT:".$this->getRemoteIp()." CLOSE INNER_CONNECTION\n");
             
             if($this->workerStatus == self::STATUS_SHUTDOWN)
             {
@@ -707,7 +707,7 @@ class Gateway extends Man\Core\SocketWorker
         {
              if(false === $this->sendToClient($bin_data))
              {
-                 $msg = "Gateway向BusinessWorker转发客户端请求出错，可能BusinessWorker接收缓冲已满";
+                 $msg = "sendBufferToWorker fail. May be the send buffer are overflow";
                  $this->notice($msg);
                  StatisticClient::report(__CLASS__, 'sendBufferToWorker', 0, 101, new \Exception($msg));
                  return false;
@@ -715,7 +715,7 @@ class Gateway extends Man\Core\SocketWorker
         }
         else
         {
-            $msg = "Gateway向BusinessWorker转发客户端请求出错，可能是workerman刚启动还没准备好；或者业务Event.php中有致命错误";
+            $msg = "sendBufferToWorker fail. the Connections between Gateway and BusinessWorker are not ready";
             $this->notice($msg);
             StatisticClient::report(__CLASS__, 'sendBufferToWorker', 0, 102, new \Exception($msg));
             return false;
