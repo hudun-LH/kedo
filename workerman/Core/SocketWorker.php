@@ -377,7 +377,7 @@ abstract class SocketWorker extends AbstractWorker
             if(!empty($this->recvBuffers[$fd]['buf']))
             {
                 $this->statusInfo['send_fail']++;
-                $this->notice("CLIENT_CLOSE\nCLIENT_IP:".$this->getRemoteIp()."\nBUFFER:[".var_export($this->recvBuffers[$fd]['buf'],true)."]\n");
+                $this->notice("CLIENT_CLOSE\nCLIENT_IP:".$this->getRemoteIp()."\nBUFFER:[".bin2hex($this->recvBuffers[$fd]['buf'])."]\n");
             }
             
             // 关闭链接
@@ -398,7 +398,7 @@ abstract class SocketWorker extends AbstractWorker
             // 出错
             $this->statusInfo['packet_err']++;
             $this->sendToClient('packet_err:'.$this->recvBuffers[$fd]['buf']);
-            $this->notice("PACKET_ERROR\nCLIENT_IP:".$this->getRemoteIp()."\nBUFFER:[".var_export($this->recvBuffers[$fd]['buf'],true)."]\n");
+            $this->notice("PACKET_ERROR\nCLIENT_IP:".$this->getRemoteIp()."\nBUFFER:[".bin2hex($this->recvBuffers[$fd]['buf'])."]\n");
             $this->closeClient($fd);
         }
         // 包接收完毕
@@ -413,7 +413,7 @@ abstract class SocketWorker extends AbstractWorker
             }
             catch(\Exception $e)
             {
-                $this->notice('CODE:' . $e->getCode() . ' MESSAGE:' . $e->getMessage()."\n".$e->getTraceAsString()."\nCLIENT_IP:".$this->getRemoteIp()."\nBUFFER:[".var_export($this->recvBuffers[$fd]['buf'],true)."]\n");
+                $this->notice('CODE:' . $e->getCode() . ' MESSAGE:' . $e->getMessage()."\n".$e->getTraceAsString()."\nCLIENT_IP:".$this->getRemoteIp()."\nBUFFER:[".bin2hex($this->recvBuffers[$fd]['buf'])."]\n");
                 $this->statusInfo['throw_exception'] ++;
             }
             
@@ -469,13 +469,13 @@ abstract class SocketWorker extends AbstractWorker
     protected function closeClient($fd)
     {
         // udp忽略
-        if($this->protocol != 'udp')
+        if($this->protocol != 'udp' && isset($this->connections[$fd]))
         {
             $this->event->del($this->connections[$fd], Events\BaseEvent::EV_READ);
             $this->event->del($this->connections[$fd], Events\BaseEvent::EV_WRITE);
             fclose($this->connections[$fd]);
-            unset($this->connections[$fd], $this->recvBuffers[$fd], $this->sendBuffers[$fd]);
         }
+        unset($this->connections[$fd], $this->recvBuffers[$fd], $this->sendBuffers[$fd]);
     }
     
     /**
@@ -567,7 +567,7 @@ abstract class SocketWorker extends AbstractWorker
             {
                 // 获得将要发送的buffer的长度
                 $total_send_buffer_len = strlen($this->sendBuffers[$this->currentDealFd]) + strlen($buffer_to_send);
-                // 如果大于最大限制值则丢弃这儿包
+                // 如果大于最大限制值则丢弃这个包
                 if($total_send_buffer_len > $this->maxSendBufferSize)
                 {
                     $this->notice('client_ip:'.$this->getRemoteIp().' strlen(sendBuffer['.$this->currentDealFd.'])='.$total_send_buffer_len.'>' . $this->maxSendBufferSize.' and droped');
@@ -738,7 +738,7 @@ abstract class SocketWorker extends AbstractWorker
             return;
         }
         $error_code = 0;
-        msg_send(Master::getQueueId(), self::MSG_TYPE_STATUS, array_merge($this->statusInfo, array('memory'=>memory_get_usage(true), 'pid'=>posix_getpid(), 'worker_name' => $this->workerName)), true, false, $error_code);
+        @msg_send(Master::getQueueId(), self::MSG_TYPE_STATUS, array_merge($this->statusInfo, array('memory'=>memory_get_usage(true), 'pid'=>posix_getpid(), 'worker_name' => $this->workerName)), true, false, $error_code);
     }
     
     /**

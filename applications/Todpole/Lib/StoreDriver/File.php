@@ -30,6 +30,17 @@ class File
     public function __construct($config_name)
     {
         $this->dataFile = \Config\Store::$storePath . "/$config_name.store.cache.php";
+        if(!is_dir(\Config\Store::$storePath) && !@mkdir(\Config\Store::$storePath, 0777, true))
+        {
+            // 可能目录已经被其它进程创建
+            clearstatcache();
+            if(!is_dir(\Config\Store::$storePath))
+            {
+                // 避免狂刷日志
+                sleep(1);
+                throw new \Exception('cant not mkdir('.\Config\Store::$storePath.')');
+            }
+        }
         if(!is_file($this->dataFile))
         {
             touch($this->dataFile);
@@ -37,8 +48,7 @@ class File
         $this->dataFileHandle = fopen($this->dataFile, 'r+');
         if(!$this->dataFileHandle)
         {
-            $error_msg = "can not fopen($this->dataFile, 'r+')";
-            throw new \Exception($error_msg);
+            throw new \Exception("can not fopen($this->dataFile, 'r+')");
         }
     }
     
@@ -89,6 +99,34 @@ class File
         $ret = $this->writeToDisk();
         flock($this->dataFileHandle, LOCK_UN);
         return $ret;
+    }
+    
+    /**
+     * 自增
+     * @param string $key
+     * @return boolean|multitype:
+     */
+    public function increment($key)
+    {
+        flock($this->dataFileHandle, LOCK_EX);
+        $this->readDataFromDisk();
+        if(!isset($this->dataCache[$key]))
+        {
+            flock($this->dataFileHandle, LOCK_UN);
+            return false;
+        }
+        $this->dataCache[$key] ++;
+        $this->writeToDisk();
+        flock($this->dataFileHandle, LOCK_UN);
+        return $this->dataCache[$key];
+    }
+    
+    /**
+     * 清零销毁存储数据
+     */
+    public function destroy()
+    {
+        @unlink($this->dataFile);
     }
     
     /**

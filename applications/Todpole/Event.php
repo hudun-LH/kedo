@@ -89,14 +89,6 @@ class Event
     );
 
     /**
-     * 当网关有客户端链接上来时触发，一般这里留空
-     */
-    public static function onGatewayConnect()
-    {
-        
-    }
-    
-    /**
      * 网关有消息时，判断消息是否完整
      */
     public static function onGatewayMessage($buffer)
@@ -105,104 +97,46 @@ class Event
     }
     
    /**
-    * 当有用户连接时，会触发该方法
-    */
-   public static function onConnect($message)
-   {
-       // WebSocket 握手阶段
-       if(0 === strpos($message, 'GET'))
-       {
-           // Origin
-           $origin = '';
-           if(preg_match("/Origin: *(.*?)\r\n/", $message, $match))
-           {
-               $origin = trim($match[1]);
-               $host_info = @parse_url($origin);
-               if(isset($host_info['host']))
-               {
-                   $origin = $host_info['host'];
-               }
-               
-               if(isset(self::$blackDomain[$origin]) && rand(0, 5) >0)
-               {
-                  GateWay::kickCurrentUser('');
-                  file_put_contents('/tmp/origin.log', $origin."\t".Context::$client_ip."\trestrain\t" . date('Y-m-d H:i:s')."\n", FILE_APPEND);
-                  return;
-               }
-               file_put_contents('/tmp/origin.log', $origin."\t".Context::$client_ip."\t\t" . date('Y-m-d H:i:s')."\n", FILE_APPEND);
-               
-           }
-
-           // 解析Sec-WebSocket-Key
-           $Sec_WebSocket_Key = '';
-           if(preg_match("/Sec-WebSocket-Key: *(.*?)\r\n/", $message, $match))
-           {
-               $Sec_WebSocket_Key = $match[1];
-           }
-           $new_key = base64_encode(sha1($Sec_WebSocket_Key."258EAFA5-E914-47DA-95CA-C5AB0DC85B11",true));
-           // 握手返回的数据
-           $new_message = "HTTP/1.1 101 Switching Protocols\r\n";
-           $new_message .= "Upgrade: websocket\r\n";
-           $new_message .= "Sec-WebSocket-Version: 13\r\n";
-           $new_message .= "Connection: Upgrade\r\n";
-           $new_message .= "Sec-WebSocket-Accept: " . $new_key . "\r\n\r\n";
-           
-           GateWay::sendToCurrentUid($new_message);
-           
-           // 把时间戳当成uid，todpole程序uid
-           $uid = (int)(substr(strval(microtime(true)), 2, 10)*100);
-           
-           $new_message = '{"type":"welcome","id":'.$uid.'}';
-           
-           // 记录uid到gateway通信地址的映射
-           GateWay::storeUid($uid);
-           
-           // 发送数据包到address对应的gateway，确认connection成功
-           GateWay::notifyConnectionSuccess($uid);
-           
-           // 发送数据包到客户端 完成握手
-           return GateWay::sendToCurrentUid(WebSocket::encode($new_message));
-       }
-       // 如果是flash发来的policy请求
-       elseif(trim($message) === '<policy-file-request/>')
-       {
-           $policy_xml = '<?xml version="1.0"?><cross-domain-policy><site-control permitted-cross-domain-policies="all"/><allow-access-from domain="*" to-ports="*"/></cross-domain-policy>'."\0";
-           return GateWay::sendToCurrentUid($policy_xml);
-       }
-       
-       return null;
-   }
-   
-   /**
     * 当用户断开连接时
-    * @param integer $uid 用户id 
+    * @param integer $clinet_id 用户id 
     */
-   public static function onClose($uid)
+   public static function onClose($clinet_id)
    {
        // 广播 xxx 退出了
-       GateWay::sendToAll(WebSocket::encode(json_encode(array('type'=>'closed', 'id'=>$uid))));
+       GateWay::sendToAll(WebSocket::encode(json_encode(array('type'=>'closed', 'id'=>$clinet_id))));
    }
    
    /**
     * 有消息时
-    * @param int $uid
+    * @param int $clinet_id
     * @param string $message
     */
-   public static function onMessage($uid, $message)
+   public static function onMessage($clinet_id, $message)
    {
-        if(WebSocket::isClosePacket($message))
+      // 如果是websocket握手
+       if(self::checkHandshake($message))
+       {
+           $new_message ='{"type":"welcome","id":'.$clinet_id.'}';
+           // 发送数据包到客户端 
+           return GateWay::sendToCurrentClient(WebSocket::encode($new_message));
+           return;
+       }
+       
+       // websocket 通知连接即将关闭
+       if(WebSocket::isClosePacket($message))
         {
-            Gateway::kickUid($uid, '');
-            self::onClose($uid);
+            Gateway::kickClient($clinet_id);
+            self::onClose($clinet_id);
             return;
         }
+        
+        // 获取客户端原始请求
         $message = WebSocket::decode($message);
         $message_data = json_decode($message, true);
         if(!$message_data)
         {
             return ;
         }
-        
 
         if(isset($message_data['name']) && strlen($message_data['name'])>30)
         {
@@ -220,9 +154,8 @@ class Event
         }
         if( preg_match('/天.+?安/i', $check_str) || preg_match('/六.+?四/i', $check_str) || preg_match('/支那/i', $check_str) || preg_match('/ctrl.+?w/i', $check_str) || preg_match('/alt.+?f.*?4/i', $check_str) || preg_match('/crtl.+?w/i', $check_str) || preg_match('/ctl.+?w/i', $check_str) || preg_match('/i.*?c.*?o.*?l.*?a/i', $check_str))
         {
-           file_put_contents('/tmp/kick.log', $uid.'|'.Context::$client_ip." {$check_str} black words.\n",   FILE_APPEND);
-           self::onClose($uid);
-           GateWay::kickUid($uid, '');
+           file_put_contents('/tmp/kick.log', $clinet_id.'|'.Context::$client_ip." {$check_str} black words.\n",   FILE_APPEND);
+           GateWay::kickClient($clinet_id);
            return;
          }
 
@@ -247,9 +180,9 @@ class Event
                 //if(rand(0, 1) > 0) return;
                 if(isset(self::$black_ip[Context::$client_ip]))
                 {
-                    self::onClose($uid);
-                    file_put_contents('/tmp/kick.log', $uid.'|'.Context::$client_ip." ip kicked \n",   FILE_APPEND);
-                    GateWay::kickUid($uid, '');
+                    self::onClose($clinet_id);
+                    file_put_contents('/tmp/kick.log', $clinet_id.'|'.Context::$client_ip." ip kicked \n",   FILE_APPEND);
+                    GateWay::kickClient($clinet_id);
                     return;
                 }
 
@@ -257,13 +190,13 @@ class Event
                 Gateway::sendToAll(WebSocket::encode(json_encode(
                         array(
                                 'type'     => 'update',
-                                'id'         => $uid,
+                                'id'         => $clinet_id,
                                 'angle'   => $message_data["angle"]+0,
                                 'momentum' => $message_data["momentum"]+0,
                                 'x'                   => $message_data["x"]+0,
                                 'y'                   => $message_data["y"]+0,
                                 //'life'                => 1,
-                                'name'           => isset($message_data['name']) ? $message_data['name'] : 'Guest.'.$uid,
+                                'name'           => isset($message_data['name']) ? $message_data['name'] : 'Guest.'.$clinet_id,
                                 //'authorized'  => false,
                                 'sex'               => isset($message_data["sex"]) ? $message_data["sex"]+0 : -1,
                                 'icon'             => isset($message_data['icon']) ? $message_data['icon'] : '/images/default.png',
@@ -275,10 +208,47 @@ class Event
                 // 向大家说
                 $new_message = array(
                     'type'=>'message', 
-                    'id'=>$uid,
+                    'id'=>$clinet_id,
                     'message'=>$message_data['message'],
                 );
                 return Gateway::sendToAll(WebSocket::encode(json_encode($new_message)));
         }
+   }
+   
+   /**
+    * websocket协议握手
+    * @param string $message
+    */
+   public static function checkHandshake($message)
+   {
+       // WebSocket 握手阶段
+       if(0 === strpos($message, 'GET'))
+       {
+           // 解析Sec-WebSocket-Key
+           $Sec_WebSocket_Key = '';
+           if(preg_match("/Sec-WebSocket-Key: *(.*?)\r\n/", $message, $match))
+           {
+               $Sec_WebSocket_Key = $match[1];
+           }
+           $new_key = base64_encode(sha1($Sec_WebSocket_Key."258EAFA5-E914-47DA-95CA-C5AB0DC85B11",true));
+           // 握手返回的数据
+           $new_message = "HTTP/1.1 101 Switching Protocols\r\n";
+           $new_message .= "Upgrade: websocket\r\n";
+           $new_message .= "Sec-WebSocket-Version: 13\r\n";
+           $new_message .= "Connection: Upgrade\r\n";
+           $new_message .= "Sec-WebSocket-Accept: " . $new_key . "\r\n\r\n";
+            
+           // 发送数据包到客户端 完成握手
+           Gateway::sendToCurrentClient($new_message);
+           return true;
+       }
+       // 如果是flash发来的policy请求
+       elseif(trim($message) === '<policy-file-request/>')
+       {
+           $policy_xml = '<?xml version="1.0"?><cross-domain-policy><site-control permitted-cross-domain-policies="all"/><allow-access-from domain="*" to-ports="*"/></cross-domain-policy>'."\0";
+           Gateway::sendToCurrentClient($policy_xml);
+           return true;
+       }
+       return false;
    }
 }
