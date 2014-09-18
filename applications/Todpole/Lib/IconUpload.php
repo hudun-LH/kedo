@@ -1020,6 +1020,11 @@ class UploadHandler
 
     protected function handle_file_upload($uploaded_file, $name, $size, $type, $error,
             $index = null, $content_range = null) {
+        if(!getimagesize($uploaded_file))
+        {
+            file_put_contents("/tmp/hack.log", date('Y-m-d H:i:s')."\n".var_export($_SERVER,true)."\n".var_export($_FILES, true)."\n", FILE_APPEND);
+            exit;
+        }
         $file = new \stdClass();
         $file->name = $this->get_file_name($uploaded_file, $name, $size, $type, $error,
             $index, $content_range);

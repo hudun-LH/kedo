@@ -1,0 +1,280 @@
+<?php
+/**
+ * 
+ * 聊天主逻辑
+ * 主要是处理 onConnect onMessage onClose 三个方法
+ * @author walkor <worker-man@qq.com>
+ * 
+ */
+
+require_once ROOT_DIR . '/Lib/Gateway.php';
+require_once ROOT_DIR . '/Protocols/WebSocket.php';
+
+class Event
+{
+   protected static $pos = array();
+   // 禁止使用的关键字,使用此关键字直接踢掉用户
+   protected static $black_words = array(
+                 '中华人民共和国',
+                 '共产党',
+                 '中国',
+                 '习近平',
+                 '中共',
+                 '共惨党',
+                 '内射',
+                 '精子',
+                 '卵子',
+                 '打炮',
+                 '约炮',
+                 '一夜情',
+                 '性交',
+                 '射精',
+                 '做爱',
+                 '毛片',
+                 '黄片',
+                 '法轮',
+                 '搞基',
+                 '搞鸡',
+                 '鸡巴',
+                 '內射',
+                 '强奸',
+                 '江泽民',
+                 '胡锦涛',
+                 '温家宝',
+                 '毛泽东',
+                 '周恩来',
+                ); 
+    // 封禁的ip
+    protected static $black_ip = array(
+                   '36.62.40.191'=>'36.62.40.191',
+                   '117.141.47.136'=>'117.141.47.136',
+                  /* '123.121.32.29'=>'123.121.32.29',
+                   '221.217.11.48'=>'221.217.11.48',
+                   '123.123.193.187'=>'123.123.193.187',
+                   '111.9.42.155'=>'111.9.42.155',
+                   '122.232.76.43'=>'122.232.76.43',
+                   '123.124.44.98'=>'123.124.44.98',
+                   '113.140.78.26'=>'113.140.78.26',
+                   '218.5.80.210'=>'218.5.80.210',
+                   '106.117.14.8'=>'106.117.14.8',
+                   '106.120.110.181'=>'106.120.110.181',
+                   '106.186.121.153'=>'106.186.121.153',
+                   '114.223.70.145'=>'114.223.70.145',
+                   '116.231.129.54'=>'116.231.129.54',
+                   '118.67.127.168'=>'118.67.127.168',
+                   '171.213.52.173'=>'171.213.52.173',
+                   '218.5.80.210'=>'218.5.80.210',
+                   '218.75.104.131'=>'218.75.104.131',
+                   '221.227.109.15'=>'221.227.109.15',
+                   '123.48.110.174'=>'123.48.110.174',
+                   '42.146.192.245'=>'42.146.192.245',
+                   '222.210.252.181'=>'222.210.252.181',
+                   '14.23.136.43'=>'14.23.136.43',
+                   '144.76.224.155'=>'144.76.224.155',
+                   '122.247.153.189'=>'122.247.153.189',
+                   '14.46.40.111'=>'14.46.40.111',
+                   '210.51.25.229'=>'210.51.25.229',
+                   '113.160.25.58'=>'113.160.25.58',
+                   '118.68.193.98'=>'118.68.193.98',
+                   '119.207.217.201'=>'119.207.217.201',
+                   '220.72.50.50'=>'220.72.50.50',
+                   '123.121.11.239'=>'123.121.11.239',
+                   '123.121.10.117'=>'123.121.10.117',
+                   '125.112.59.124'=>'125.112.59.124',
+                   '123.121.32.29'=>'123.121.32.29',
+                   '123.121.21.189'=>'123.121.21.189',
+                   '123.121.39.152'=>'123.121.39.152',
+                   '123.121.21.121'=>'123.121.21.121',
+                   '123.121.2.108'=>'123.121.2.108',
+                   '123.121.29.159'=>'123.121.29.159',
+                   '123.121.0.232'=>'123.121.0.232',
+                   '223.73.85.59'=>'223.73.85.59',
+                   '223.73.85.252'=>'223.73.85.252',
+                   '223.73.85.109'=>'223.73.85.109',
+                   '115.58.130.51'=>'115.58.130.51',
+                   '117.28.251.194'=>'117.28.251.194',*/
+                );
+   
+   /**
+    * 当有用户连接时，会触发该方法
+    */
+   public static function onConnect($message)
+   {
+       // WebSocket 握手阶段
+       if(0 === strpos($message, 'GET'))
+       {
+           //file_put_contents('/tmp/connect.log', $message, FILE_APPEND);
+           // 解析Sec-WebSocket-Key
+           $Sec_WebSocket_Key = '';
+           if(preg_match("/Sec-WebSocket-Key: *(.*?)\r\n/", $message, $match))
+           {
+               $Sec_WebSocket_Key = $match[1];
+           }
+           $new_key = base64_encode(sha1($Sec_WebSocket_Key."258EAFA5-E914-47DA-95CA-C5AB0DC85B11",true));
+           // 握手返回的数据
+           $new_message = "HTTP/1.1 101 Switching Protocols\r\n";
+           $new_message .= "Upgrade: websocket\r\n";
+           $new_message .= "Sec-WebSocket-Version: 13\r\n";
+           $new_message .= "Connection: Upgrade\r\n";
+           $new_message .= "Sec-WebSocket-Accept: " . $new_key . "\r\n\r\n";
+           // 把时间戳当成uid，todpole程序uid固定为6位数字
+           $uid = (substr(strval(microtime(true)), 6, 7)*100)%1000000;
+           if($uid<100000)
+           {
+               $uid += 100000; 
+           }
+           $new_message .= pack("H*", '811e').'{"type":"welcome","id":'.$uid.'}';
+           
+           // 记录uid到gateway通信地址的映射
+           GateWay::storeUid($uid);
+           
+           // 发送数据包到address对应的gateway，确认connection成功
+           GateWay::notifyConnectionSuccess($uid);
+           
+           // 发送数据包到客户端 完成握手
+           return GateWay::sendToCurrentUid($new_message, true);
+       }
+       // 如果是flash发来的policy请求
+       elseif(trim($message) === '<policy-file-request/>')
+       {
+           $policy_xml = '<?xml version="1.0"?><cross-domain-policy><site-control permitted-cross-domain-policies="all"/><allow-access-from domain="*" to-ports="*"/></cross-domain-policy>'."\0";
+           return GateWay::sendToCurrentUid($policy_xml, true);
+       }
+       
+       return null;
+   }
+   
+   /**
+    * 当用户断开连接时
+    * @param integer $uid 用户id 
+    */
+   public static function onClose($uid)
+   {
+       unset(self::$pos[$uid]);
+       // 广播 xxx 退出了
+       GateWay::sendToAll(json_encode(array('type'=>'closed', 'id'=>$uid)));
+   }
+   
+   /**
+    * 有消息时
+    * @param int $uid
+    * @param string $message
+    */
+   public static function onMessage($uid, $message)
+   {
+        // $message len < 7 是用户退出了,直接返回，等待socket关闭触发onclose方法
+        if(strlen($message) < 7)
+        {
+            return ;
+        }
+        $message = \WebSocket::decode($message);
+        $message_data = json_decode($message, true);
+        if(!$message_data)
+        {
+            return ;
+        }
+        if(isset($message_data['name']) && strlen($message_data['name'])>30)
+        {
+           $message_data['name'] = substr($message_data['name'], 0, 30);
+        }
+        
+        $check_str = '';
+        if(isset($message_data['name']))
+        {
+          $check_str = $message_data['name'];
+        } 
+        if(isset($message_data['message']))
+        {
+           $check_str = $message_data['message'];
+        }
+        if(preg_match('/ctrl.+?w/i', $check_str) || preg_match('/alt.+?f.*?4/i', $check_str) || preg_match('/crtl.+?w/i', $check_str) || preg_match('/ctl.+?w/i', $check_str))
+        {
+           file_put_contents('/tmp/kick.log', $uid.'|'.Context::$client_ip." {$check_str} black words.\n",   FILE_APPEND);
+           self::onClose($uid);
+           GateWay::kickUid($uid, '');
+           return;
+         }
+       
+        
+       
+        if(isset($message_data['name']))
+        {
+           $message_data['name'] = str_replace(array('精子', '卵子'), array('●～', '⊙⊙'), $message_data['name']);
+           $message_data['name'] = str_replace(self::$black_words, '**', $message_data['name']);
+        }
+         
+        if(isset($message_data['message']))
+        {
+           $message_data['message'] = str_replace(array('精子', '卵子'), array('●～', '⊙⊙'), $message_data['message']);
+           $message_data['message'] = str_replace(self::$black_words, '**', $message_data['message']);
+        }
+
+        if((isset($message_data['name']) && preg_match( "/日本/", $message_data['name']) )||$uid==168777)
+        file_put_contents('/tmp/kick.log', $uid.'|'.Context::$client_ip." {$message_data['name']} name or uid.\n",   FILE_APPEND);
+ 
+        switch($message_data['type'])
+        {
+            // 更新用户
+            case 'update':
+                // 转播给所有用户
+                //if(rand(0, 1)>0) return;
+                if(isset(self::$black_ip[Context::$client_ip]))
+                {
+                    self::onClose($uid);
+                    file_put_contents('/tmp/kick.log', $uid.'|'.Context::$client_ip." ip kicked \n",   FILE_APPEND);
+                    GateWay::kickUid($uid, '');
+                    return;
+                }
+                if(!isset(self::$pos[$uid])){
+			 self::$pos[$uid] = array('x'=>$message_data["x"]+0,'y'=>$message_data["y"]+0 , 'time'=> microtime(true));
+                }
+                else
+                {
+                         $time_now = microtime(true);
+                         $max_pos = 60;
+                         if($time_now - self::$pos[$uid]['time'] < 0.5)
+                         {
+                            $x_pos = self::$pos[$uid]['x'] - $message_data["x"];
+                            $x_pos = $x_pos>0 ? $x_pos : -$x_pos;
+                            $y_pos = self::$pos[$uid]['y'] - $message_data['y'];
+                            $y_pos = $y_pos>0 ?  $y_pos : -$y_pos;
+                            unset(self::$pos[$uid]);
+                            if($x_pos > $max_pos || $y_pos > $max_pos )
+                            {
+                               // self::onClose($uid);
+                                file_put_contents('/tmp/kick.log', $uid.'|'.Context::$client_ip." {$message_data['name']} jisuan not kicked\n", 	FILE_APPEND);
+                               //  GateWay::kickUid($uid, '');
+                                return;
+                            }
+                         }
+                         self::$pos[$uid]['x'] = $message_data["x"];
+                         self::$pos[$uid]['y'] = $message_data['y'];
+                         self::$pos[$uid]['time'] = $time_now; 
+                }
+                Gateway::sendToAll(json_encode(
+                        array(
+                                'type'     => 'update',
+                                'id'         => $uid,
+                                'angle'   => $message_data["angle"]+0,
+                                'momentum' => $message_data["momentum"]+0,
+                                'x'                   => $message_data["x"]+0,
+                                'y'                   => $message_data["y"]+0,
+                                'life'                => 1,
+                                'name'           => isset($message_data['name']) ? $message_data['name'] : 'Guest.'.$uid,
+                                'authorized'  => false,
+                                )
+                        ));
+                return;
+            // 聊天
+            case 'message':
+                // 向大家说
+                //if(false !== strpos($message_data['message'], 'wzwz.cn') || false !== strpos($message_data['message'], 'mir28.com')) return;
+                $new_message = array(
+                    'type'=>'message', 
+                    'id'=>$uid,
+                    'message'=>$message_data['message'],
+                );
+                return Gateway::sendToAll(json_encode($new_message));
+        }
+   }
+}

@@ -20,7 +20,7 @@ class Store
     
     // 如果是memcache存储，则在这里设置memcache的ip端口，注意确保你安装了memcache扩展
     public static $gateway = array(
-        '10.144.145.90:11211',
+        '127.0.0.1:11211',
     );
     
 }
