@@ -155,6 +155,12 @@ class Gateway extends Man\Core\SocketWorker
         $start_port = Man\Core\Lib\Config::get($this->workerName.'.lan_port_start');
         // 计算本进程监听的ip端口
         $this->lanPort = $start_port - posix_getppid() + posix_getpid();
+        // 如果端口不在合法范围
+        if($this->lanPort<0 || $this->lanPort >=65535)
+        {
+            $this->lanPort = rand($start_port, 65535);
+        }
+        // 如果
         $this->lanIp = Man\Core\Lib\Config::get($this->workerName.'.lan_ip');
         if(!$this->lanIp)
         {
@@ -729,7 +735,7 @@ class Gateway extends Man\Core\SocketWorker
      */
     protected function notice($str, $display=true)
     {
-        $str = 'Worker['.get_class($this).']:'."$str ip:".$this->getRemoteIp();
+        $str = 'Worker['.get_class($this).']:'."$str";
         Man\Core\Lib\Log::add($str);
         if($display && Man\Core\Lib\Config::get('workerman.debug') == 1)
         {
