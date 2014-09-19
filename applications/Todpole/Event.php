@@ -15,8 +15,15 @@ use \Protocols\WebSocket;
 
 class Event
 {
-// 禁止使用的关键字,使用此关键字直接踢掉用户
-   protected static $black_words = array(
+    // 客户端列表自后更新时间
+    protected static $clientListUpTime = 0;
+    // 客户端列表过期时间
+    protected static $clientListEXPTime = 1;
+    // 客户端列表缓存
+    protected static $clientListCache = array();
+    
+    // 禁止使用的关键字,使用此关键字直接踢掉用户
+    protected static $black_words = array(
                  '中华人民共和国',
                  '共产党',
                  '中国',
@@ -102,8 +109,10 @@ class Event
     */
    public static function onClose($client_id)
    {
+       // 从客户端列表中删除
+       self::delFromClientList($client_id);
        // 广播 xxx 退出了
-       GateWay::sendToAll(WebSocket::encode(json_encode(array('type'=>'closed', 'id'=>$client_id))));
+       self::sendToAll(WebSocket::encode(json_encode(array('type'=>'closed', 'id'=>$client_id))));
    }
    
    /**
@@ -128,6 +137,13 @@ class Event
             Gateway::kickClient($client_id);
             self::onClose($client_id);
             return;
+        }
+        
+        // 握手完成则加入客户端列表
+        if(!isset($_SESSION['handshake']))
+        {
+            $_SESSION['handshake'] = true;
+            self::addToClientList($client_id);
         }
         
         // 获取客户端原始请求
@@ -171,7 +187,6 @@ class Event
            $message_data['message'] = str_replace(array('精子', '卵子'), array('●～', '⊙⊙'), $message_data['message']);
            $message_data['message'] = str_replace(self::$black_words, '**', $message_data['message']);
         }
-
         
         switch($message_data['type'])
         {
@@ -187,7 +202,7 @@ class Event
                 }
 
                 // 转播给所有用户
-                Gateway::sendToAll(WebSocket::encode(json_encode(
+                self::sendToAll(WebSocket::encode(json_encode(
                         array(
                                 'type'     => 'update',
                                 'id'         => $client_id,
@@ -211,8 +226,113 @@ class Event
                     'id'=>$client_id,
                     'message'=>$message_data['message'],
                 );
-                return Gateway::sendToAll(WebSocket::encode(json_encode($new_message)));
+                return self::sendToAll(WebSocket::encode(json_encode($new_message)));
         }
+   }
+   
+   /**
+    * 发送给所有客户端
+    * @param string $message
+    */
+   protected static function sendToAll($message)
+   {
+       $clinetid_list = self::getClientList();
+       return Gateway::sendToAll($message, $clinetid_list);
+   }
+   
+   /**
+    * 添加到客户端列表
+    * @param int $client_id
+    * @throws \Exception
+    */
+   protected static function addToClientList($client_id)
+   {
+       $key = 'ALL_CLIENT_ID';
+       \Man\Core\Lib\Mutex::get();
+       $clientid_list = Store::instance('gateway')->get($key);
+       if(!$clientid_list)
+       {
+           $clientid_list = array();
+       }
+       $clientid_list[$client_id] = $client_id;
+       // 去除客户端列表中的脏数据，重启产生的
+       if(rand(1, 100) ==1)
+       {
+           $gateway_online_clientlist = Gateway::getOnlineStatus();
+           if(!$gateway_online_clientlist)
+           {
+               \Man\Core\Lib\Mutex::get();
+               throw new \Exception("Gateway::getOnlineStatus() return " . var_export($gateway_online_clientlist));
+           }
+           $gateway_online_clientlist = array_flip($gateway_online_clientlist);
+           if($gateway_online_clientlist)
+           {
+               foreach ($clientid_list as $client_id)
+               {
+                   if(!isset($gateway_online_clientlist[$client_id]))
+                   {
+                       unset($clientid_list[$client_id]);
+                   }
+               }
+           }
+       }
+       if(!Store::instance('gateway')->set($key, $clientid_list))
+       {
+           \Man\Core\Lib\Mutex::release();
+           throw new \Exception("addToClientList($client_id)->Store::instance('gateway')->set($key, \$clientid_list) fail");
+       }
+       \Man\Core\Lib\Mutex::release();
+       self::$clientListCache = $clientid_list;
+       self::$clientListUpTime = time();
+       return $clientid_list;
+   }
+   
+   /**
+    * 从客户端列表中删除
+    * @param int $client_id
+    * @throws \Exception
+    */
+   protected static function delFromClientList($client_id)
+   {
+       $key = 'ALL_CLIENT_ID';
+       \Man\Core\Lib\Mutex::get();
+       $clientid_list = Store::instance('gateway')->get($key);
+       if(!$clientid_list && !isset($clientid_list[$client_id]))
+       {
+           \Man\Core\Lib\Mutex::release();
+           return array();
+       }
+       unset($clientid_list[$client_id]);
+       if(!Store::instance('gateway')->set($key, $clientid_list))
+       {
+           \Man\Core\Lib\Mutex::release();
+           throw new \Exception("addToClientList($client_id)->Store::instance('gateway')->set($key, \$clientid_list) fail");
+       }
+       \Man\Core\Lib\Mutex::release();
+       self::$clientListCache = $clientid_list;
+       self::$clientListUpTime = time();
+       return $clientid_list;
+   }
+   
+   /**
+    * 获取客户端列表
+    * @throws \Exception
+    */
+   protected static function getClientList()
+   {
+       $time_now = time();
+       if($time_now - self::$clientListUpTime >self::$clientListEXPTime)
+       {
+           $key = 'ALL_CLIENT_ID';
+           $client_list = Store::instance('gateway')->get($key);
+           if($client_list === false)
+           {
+               throw new \Exception("getClientList()->Store::instance('gateway')->get($key) fail");
+           }
+           self::$clientListCache = $client_list;
+           self::$clientListUpTime = $time_now;
+       }
+       return self::$clientListCache;
    }
    
    /**
