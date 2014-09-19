@@ -72,7 +72,7 @@ var cpro_id = "u1560945";
 	<a class="jiathis_button_renren"></a>
 	<a href="http://www.jiathis.com/share?uid=1936942" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	<a class="jiathis_counter_style"></a>
-        <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=eca5de15cc70597f4f952a1bf2bc43dd4326007ead11e9d0eda92b513c5d8dff"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="小蝌蚪群" title="小蝌蚪群"></a>
+        <!-- <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=eca5de15cc70597f4f952a1bf2bc43dd4326007ead11e9d0eda92b513c5d8dff"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="小蝌蚪群" title="小蝌蚪群"></a> -->
 </div>
 <script type="text/javascript">
 var jiathis_config = {data_track_clickback:'true'};

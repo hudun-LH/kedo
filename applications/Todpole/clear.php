@@ -30,7 +30,7 @@ foreach(glob($dir."/*") as $path)
                   }
                   elseif(is_file($path3))
                   {
-                     if(!getimagesize)
+                     if(!getimagesize($path3))
                      {
                         echo "not img :".$path3."\n";
                      }
