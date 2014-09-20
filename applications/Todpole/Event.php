@@ -261,7 +261,7 @@ class Event
            $gateway_online_clientlist = Gateway::getOnlineStatus();
            if(!$gateway_online_clientlist)
            {
-               \Man\Core\Lib\Mutex::get();
+               \Man\Core\Lib\Mutex::release();
                throw new \Exception("Gateway::getOnlineStatus() return " . var_export($gateway_online_clientlist));
            }
            $gateway_online_clientlist = array_flip($gateway_online_clientlist);
