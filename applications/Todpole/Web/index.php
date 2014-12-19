@@ -55,6 +55,11 @@ if(!function_exists('is_mobile'))
 <br><br><br><br><br><br><br>
 <!--<img src="/css/images/logo.png" />-->
 <?php }?>
+<div style="background:#FFFFFF;padding:2px;">
+<a href="http://flap.workerman.net" target="_blank"><img src="http://flap.workerman.net/img/flap.png">
+<br><center style="color:#333333">多人在线像素小鸟</center>
+</div>
+<br>
 <script type="text/javascript">
 /*125*125，创建于2014-5-19*/
 var cpro_id = "u1560945";
