@@ -22,7 +22,7 @@ if(!function_exists('is_mobile'))
 	   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png"/>
 		<meta property="fb:app_id" content="149260988448984" />
 		<meta name="title" content="Workerman-todpole!" />
-		<meta name="description" content="这是一个奇葩、无底线的小蝌蚪们的世界，在大家不知道彼此是谁，但是确可以感知对方的存在，大家可以实时互动、可以实时聊天" />
+		<meta name="description" content="这是一个奇葩、无底线的小蝌蚪们的世界，在大家不知道彼此是谁，但是确可以感知对方的存在，大家可以实时互动、可以实时聊天。小蝌蚪聊天室，匿名、互动、交友、聊天" />
 		<link rel="image_src" href="/images/fb-image.jpg" / >
 		<link rel="stylesheet" href="css/jquery.fileupload.css">
 		<script src="/js/jquery.min.js"></script>
@@ -56,8 +56,8 @@ if(!function_exists('is_mobile'))
 <!--<img src="/css/images/logo.png" />-->
 <?php }?>
 <div style="background:#FFFFFF;padding:2px;">
-<a href="http://flap.workerman.net" target="_blank"><img src="http://flap.workerman.net/img/flap.png">
-<br><center style="color:#333333">多人在线像素小鸟</center>
+<a href="http://flap.workerman.net" target="_blank"><img src="http://flap.workerman.net/img/flap.gif">
+<br><center style="color:#333333;font-weight:bold;">多人在线像素小鸟游戏</center>
 </div>
 <br>
 <script type="text/javascript">
@@ -68,7 +68,8 @@ var cpro_id = "u1560945";
 			</section>
 			<section id="wtf">
 <br><br><br><br><br><br><br><br><br><br><br><br><br>
-<h2>感谢<a href="http://rumpetroll.com/" target="_blank">rumpetroll.com</a>&nbsp;&nbsp;&nbsp;&nbsp;<a rel="external" href="http://github.com/walkor/workerman-todpole" title="workerman-todpole at GitHub">源代码：<img src="css/images/github.png" alt="fork on github"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://workerman.net/workerman-todpole" target="_blank">安装教程</a> &nbsp;&nbsp;&nbsp;&nbsp;<!-- JiaThis Button BEGIN -->
+<br><br><br><br><br><br><br>
+<h2>感谢<a href="http://rumpetroll.com/" target="_blank">rumpetroll.com</a>&nbsp;&nbsp;&nbsp;&nbsp;<a rel="external" href="http://github.com/walkor/workerman-todpole" title="workerman-todpole at GitHub">本交友聊天室源代码：<img src="css/images/github.png" alt="fork on github"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://workerman.net/workerman-todpole" target="_blank">安装教程</a> &nbsp;&nbsp;&nbsp;&nbsp;<!-- JiaThis Button BEGIN -->
 <div class="jiathis_style_24x24">
 	<a class="jiathis_button_qzone"></a>
 	<a class="jiathis_button_tsina"></a>
@@ -77,7 +78,7 @@ var cpro_id = "u1560945";
 	<a class="jiathis_button_renren"></a>
 	<a href="http://www.jiathis.com/share?uid=1936942" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	<a class="jiathis_counter_style"></a>
-        <!-- <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=eca5de15cc70597f4f952a1bf2bc43dd4326007ead11e9d0eda92b513c5d8dff"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="小蝌蚪群" title="小蝌蚪群"></a> -->
+        <!-- <a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=eca5de15cc70597f4f952a1bf2bc43dd4326007ead11e9d0eda92b513c5d8dff"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="小蝌蚪群" title="小蝌蚪群"></a> --> <a href="http://www.workerman.net/workerman-todpole" target="_blank">本应采用PHP(workerman框架)+HTML5开发完成</a>
 </div>
 <script type="text/javascript">
 var jiathis_config = {data_track_clickback:'true'};
